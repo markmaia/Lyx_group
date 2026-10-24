@@ -1,0 +1,37 @@
+.admin-blog-shortcut {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 10px;
+  padding: 10px 13px;
+  border: 1px solid #d7c9aa;
+  color: #173c2d;
+  background: #fffdf8;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.admin-blog-shortcut:hover {
+  background: #f5f0e4;
+}
+
+.admin-row-actions a {
+  color: var(--admin-green);
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.admin-row-actions a:hover {
+  text-decoration: underline;
+}
+
+#article-editor {
+  scroll-margin-top: 25px;
+}
+
+#article-editor .admin-form-actions {
+  align-items: center;
+  gap: 17px;
+}
