@@ -4,6 +4,7 @@ import InteriorLayout from "./InteriorLayout";
 import { getPublishedProperty, getSimilarProperties } from "../lib/supabase";
 import { CurrencyToggle, useCurrency } from "../context/CurrencyContext";
 import { WhatsAppIcon } from "../components/WhatsAppBot";
+import useSeo from "../lib/useSeo";
 
 const categoryLabels = {
   residential: "Residential",
@@ -79,6 +80,30 @@ export default function PropertyDetails({ slug }) {
       ? "Rental price"
       : `${categoryLabels[property.property_type] || "Property"} price`
     : "Property price";
+  const propertyDescription = property?.summary || property?.description?.replace(/\s+/g, " ").slice(0, 155) || (location ? `${categoryLabels[property.property_type] || "Property"} in ${location}` : "Property listing in Kenya");
+  useSeo(property ? {
+    title: `${property.title}${location ? ` in ${location}` : ""} | LYX Group`,
+    description: propertyDescription,
+    path: `/property/${encodeURIComponent(property.slug)}`,
+    image: images[0] || undefined,
+    pageSchema: {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      name: property.title,
+      description: propertyDescription,
+      url: typeof window !== "undefined" ? window.location.href : undefined,
+      primaryImageOfPage: images[0] ? { "@type": "ImageObject", contentUrl: images[0] } : undefined,
+      about: { "@type": "Place", name: [property.area, property.city].filter(Boolean).join(", ") || "Kenya" },
+    },
+  } : loading ? {
+    title: "Property listings in Kenya | LYX Group",
+    description: "View property details and photos from LYX Group listings in Kenya.",
+    noindex: true,
+  } : {
+    title: "Property unavailable | LYX Group",
+    description: "This property listing is unavailable. Browse current LYX Group listings in Kenya.",
+    noindex: true,
+  });
   const features = property ? [
     property.bedrooms != null && { label: "Bedrooms", value: property.bedrooms },
     property.bathrooms != null && { label: "Bathrooms", value: property.bathrooms },

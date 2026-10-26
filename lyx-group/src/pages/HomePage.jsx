@@ -216,6 +216,26 @@ export default function HomePage() {
   const [muted, setMuted] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
 
+  useEffect(() => {
+    const video = videoRef.current;
+    const source = video?.querySelector("source[data-src]");
+    if (!video || !source || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return undefined;
+
+    const startVideo = () => {
+      source.src = source.dataset.src;
+      source.removeAttribute("data-src");
+      video.load();
+      video.play().catch(() => {});
+    };
+
+    if ("requestIdleCallback" in window) {
+      const idleId = window.requestIdleCallback(startVideo, { timeout: 2500 });
+      return () => window.cancelIdleCallback?.(idleId);
+    }
+    const timer = window.setTimeout(startVideo, 1200);
+    return () => window.clearTimeout(timer);
+  }, []);
+
   function toggleSound() {
     const video = videoRef.current;
     if (!video) return;
@@ -244,8 +264,8 @@ export default function HomePage() {
         <button className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)} aria-label={menuOpen ? "Close menu" : "Open menu"}>{menuOpen ? <X /> : <Menu />}</button>
       </header>
       <section className="luxury-hero" id="home">
-        <video ref={videoRef} className="hero-video" autoPlay muted={muted} loop playsInline preload="metadata" onCanPlay={(event) => event.currentTarget.play().catch(() => {})} aria-hidden="true">
-          <source src="/house-tour.mp4" type="video/mp4" />
+        <video ref={videoRef} className="hero-video" muted={muted} loop playsInline preload="none" poster="/images/featured-development.jpeg" aria-hidden="true">
+          <source data-src="/house-tour.mp4" type="video/mp4" />
         </video>
         <div className="luxury-hero-shade" />
 
@@ -281,7 +301,7 @@ export default function HomePage() {
         <div className="category-grid">
           {propertyTypes.map(({ name, icon: Icon, href, detail, image }, index) => (
             <a className={`category-card category-card-${index + 1}`} href={href} key={name}>
-              <div className="category-art"><img className="category-art-image" src={image} alt="" aria-hidden="true" onLoad={(event) => event.currentTarget.parentElement.classList.add("has-image")} onError={(event) => event.currentTarget.remove()} /><span className="category-art-index">0{index + 1}</span><Icon size={36} strokeWidth={1.15} /><span className="category-art-line" /></div>
+              <div className="category-art"><img className="category-art-image" src={image} alt="" aria-hidden="true" loading="lazy" decoding="async" onLoad={(event) => event.currentTarget.parentElement.classList.add("has-image")} onError={(event) => event.currentTarget.remove()} /><span className="category-art-index">0{index + 1}</span><Icon size={36} strokeWidth={1.15} /><span className="category-art-line" /></div>
               <div className="category-card-copy"><div><h3>{name}</h3><p>{detail}</p></div><span className="category-arrow"><ArrowUpRight size={17} /></span></div>
             </a>
           ))}
@@ -325,7 +345,7 @@ export default function HomePage() {
       </section>
 
       <section className="about-band" id="about">
-        <div className="about-art" role="img" aria-label="LYX Group gold logo on a black background">
+        <div className="about-art" role="img" aria-label="LYX Group gold logo on a white background">
           <img className="about-art-logo" src={logo} alt="LYX Group logo" />
         </div>
         <div className="about-copy"><p className="luxury-kicker">ABOUT LYX GROUP</p><h2>Your Trusted Partner in Real Estate</h2><p>LYX Group helps clients explore property opportunities, from residential homes and commercial spaces to land and developments.</p><a className="text-link" href="/about">Learn More <ArrowRight size={16} /></a></div>

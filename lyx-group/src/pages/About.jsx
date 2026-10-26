@@ -50,7 +50,7 @@ const teamMembers = [
   {
     name: "LYX Group CEO",
     role: "Chief Executive Officer",
-    photo: "/team/ceo.png",
+    photo: "/team/ceo.jpeg",
   },
   {
     name: "LYX Group Marketing",
@@ -104,7 +104,7 @@ export default function About() {
           <h2 id="about-team-title">Meet the team.</h2>
         </div>
         <figure className="about-page-team-feature">
-          <img src="/team/lyx-team.png" alt="The LYX Group team together in their office" loading="lazy" />
+          <img src="/team/lyx-team.jpeg" alt="The LYX Group team together in their office" loading="lazy" decoding="async" />
           <figcaption><span>LYX GROUP</span><strong>People who make every move matter.</strong></figcaption>
         </figure>
         {teamMembers.length ? (

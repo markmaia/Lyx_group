@@ -15,6 +15,9 @@ import PropertyDetails from "./pages/PropertyDetails";
 import { CurrencyProvider } from "./context/CurrencyContext";
 import WhatsAppBot from "./components/WhatsAppBot";
 import Contact from "./pages/Contact";
+import NotFound from "./pages/NotFound";
+import useSeo from "./lib/useSeo";
+import { adminSeo, notFoundSeo, publicSeoRoutes } from "./lib/seoRoutes";
 import "./App.css";
 import "./HomePage.css";
 
@@ -35,13 +38,16 @@ const routes = {
 };
 
 export default function App() {
-  const pathname = window.location.pathname.replace(/\/$/, "");
+  const pathname = window.location.pathname.replace(/\/+$/, "") || "/";
   const propertyMatch = pathname.match(/^\/property\/([^/]+)$/);
   const articleMatch = pathname.match(/^\/resources\/blog\/([^/]+)$/);
   const Page = routes[pathname];
+  const staticSeo = publicSeoRoutes.find((route) => route.path === pathname);
+  const seo = staticSeo || (pathname === "/admin" ? adminSeo : propertyMatch || articleMatch ? null : notFoundSeo);
+  useSeo(seo);
   const content = propertyMatch
     ? <PropertyDetails slug={decodeURIComponent(propertyMatch[1])} />
     : articleMatch ? <Blog slug={decodeURIComponent(articleMatch[1])} />
-    : Page ? <Page /> : <HomePage />;
+    : Page ? <Page /> : pathname === "/" ? <HomePage /> : <NotFound />;
   return <CurrencyProvider>{content}<WhatsAppBot /></CurrencyProvider>;
 }

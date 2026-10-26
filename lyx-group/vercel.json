@@ -1,6 +1,39 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "trailingSlash": false,
   "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
+    { "source": "/about", "destination": "/about/index.html" },
+    { "source": "/contact", "destination": "/contact/index.html" },
+    { "source": "/buy/residential", "destination": "/buy/residential/index.html" },
+    { "source": "/buy/commercial", "destination": "/buy/commercial/index.html" },
+    { "source": "/buy/off-plan", "destination": "/buy/off-plan/index.html" },
+    { "source": "/buy/land", "destination": "/buy/land/index.html" },
+    { "source": "/holiday-homes", "destination": "/holiday-homes/index.html" },
+    { "source": "/rent", "destination": "/rent/index.html" },
+    { "source": "/valuation", "destination": "/valuation/index.html" },
+    { "source": "/testimonials", "destination": "/testimonials/index.html" },
+    { "source": "/resources/blog", "destination": "/resources/blog/index.html" },
+    { "source": "/resources/faq", "destination": "/resources/faq/index.html" },
+    { "source": "/resources/blog/:slug", "destination": "/index.html" },
+    { "source": "/property/:slug", "destination": "/index.html" },
+    { "source": "/admin", "destination": "/admin/index.html" }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "Strict-Transport-Security", "value": "max-age=31536000" },
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" }
+      ]
+    },
+    {
+      "source": "/admin",
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
+    },
+    {
+      "source": "/admin/:path*",
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
+    }
   ]
 }
