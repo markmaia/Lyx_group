@@ -3,7 +3,7 @@ import {
   ArrowDown, ArrowRight, ArrowUpRight, Building2, Home, KeyRound, MapPin,
   Menu, Ruler, ShieldCheck, Sparkles, Volume2, VolumeX, X,
 } from "lucide-react";
-import logo from "../assets/logo2-small.jpg";
+import logo from "../assets/lyx-original-logo.jpeg";
 import { getFeaturedProperties, searchProperties } from "../lib/supabase";
 import SocialLinks from "../components/SocialLinks";
 

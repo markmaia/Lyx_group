@@ -1,4 +1,4 @@
-import logo from "../assets/logo2-small.jpg";
+import logo from "../assets/lyx-original-logo.jpeg";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import SocialLinks from "../components/SocialLinks";
 import "../InteriorLayout.css";

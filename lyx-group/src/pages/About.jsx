@@ -46,9 +46,18 @@ const services = [
   { icon: MapPinned, title: "Land and developments", text: "Discover land and off-plan opportunities, with clear information for your next step.", href: "/buy/land" },
 ];
 
-// Add verified profiles here. Add each person's photo under public/team/ and
-// reference it with a path such as /team/person-name.jpg.
-const teamMembers = [];
+const teamMembers = [
+  {
+    name: "LYX Group CEO",
+    role: "Chief Executive Officer",
+    photo: "/team/ceo.png",
+  },
+  {
+    name: "LYX Group Marketing",
+    role: "Head of Marketing",
+    photo: "/team/head-of-marketing.jpeg",
+  },
+];
 
 export default function About() {
   return (
@@ -94,6 +103,10 @@ export default function About() {
           <p className="about-page-label">THE PEOPLE BEHIND LYX</p>
           <h2 id="about-team-title">Meet the team.</h2>
         </div>
+        <figure className="about-page-team-feature">
+          <img src="/team/lyx-team.png" alt="The LYX Group team together in their office" loading="lazy" />
+          <figcaption><span>LYX GROUP</span><strong>People who make every move matter.</strong></figcaption>
+        </figure>
         {teamMembers.length ? (
           <div className="about-page-team-grid">
             {teamMembers.map(({ name, role, bio, photo }) => (

@@ -2,5 +2,13 @@
 @media(max-width:920px){.about-page-card-grid,.about-page-team-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.about-page-card{min-height:230px}}
 @media(max-width:600px){.about-page-intro{margin:44px 0 60px;padding-left:19px}.about-page-services,.about-page-team{margin-bottom:58px}.about-page-card-grid,.about-page-team-grid{grid-template-columns:1fr}.about-page-card{min-height:0}.about-page-team-card{padding:12px 12px 18px}.about-page-team-photo{aspect-ratio:4/3}.about-page-team-empty,.about-page-promise{gap:13px;padding:21px 18px}}
 .about-page-service-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.about-page-team-feature{position:relative;aspect-ratio:3/2;max-height:520px;margin:0 0 20px;overflow:hidden;background:#e5e7e1}
+.about-page-team-feature::after{position:absolute;inset:35% 0 0;background:linear-gradient(transparent,#101812c9);content:""}
+.about-page-team-feature img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 45%}
+.about-page-team-feature figcaption{position:absolute;right:clamp(20px,5vw,56px);bottom:clamp(20px,4vw,42px);left:clamp(20px,5vw,56px);z-index:1;display:grid;gap:8px;color:#fff}
+.about-page-team-feature figcaption span{color:#f1d28e;font-size:10px;font-weight:700;letter-spacing:.2em}
+.about-page-team-feature figcaption strong{max-width:540px;font:400 clamp(23px,4vw,42px)/1.1 'Playfair Display',Georgia,serif}
+.about-page-team-grid{grid-template-columns:repeat(2,minmax(0,1fr));max-width:780px;margin:0 auto}
 @media(max-width:920px){.about-page-service-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:600px){.about-page-service-grid{grid-template-columns:1fr}}
+@media(max-width:600px){.about-page-team-feature{aspect-ratio:4/3}.about-page-team-feature img{object-position:center}.about-page-team-feature figcaption{right:18px;bottom:18px;left:18px}.about-page-team-grid{grid-template-columns:1fr;max-width:420px}}
