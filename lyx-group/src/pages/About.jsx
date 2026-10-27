@@ -48,12 +48,12 @@ const services = [
 
 const teamMembers = [
   {
-    name: "LYX Group CEO",
+    name: "Lyx Realty Group CEO",
     role: "Chief Executive Officer",
     photo: "/team/ceo.jpeg",
   },
   {
-    name: "LYX Group Marketing",
+    name: "Lyx Realty Group Marketing",
     role: "Head of Marketing",
     photo: "/team/head-of-marketing.jpeg",
   },
@@ -62,16 +62,16 @@ const teamMembers = [
 export default function About() {
   return (
     <InteriorLayout
-      eyebrow="ABOUT LYX GROUP - ESTABLISHED 2015"
+      eyebrow="About Lyx Realty Group - ESTABLISHED 2015"
       title="A clearer way to find your place."
-      description="LYX Group is a prominent Kenyan real estate company known for its innovation, integrity, and commitment to excellence. Since 2015, we have grown into a trusted name in residential, commercial, and investment property."
+      description="Lyx Realty Group is a prominent Kenyan real estate company known for its innovation, integrity, and commitment to excellence. Since 2015, we have grown into a trusted name in residential, commercial, and investment property."
       action="Talk to our team"
     >
       <section className="about-page-intro">
         <p className="about-page-label">PROPERTY, WITH PEOPLE IN MIND</p>
         <h2>Good property decisions start with the right conversation.</h2>
         <p>
-          LYX Group is a Kenyan real estate company focused on helping people find and evaluate property
+          Lyx Realty Group is a Kenyan real estate company focused on helping people find and evaluate property
           opportunities. Since 2015, our goal has been to make each step clearer through thoughtful
           service and useful information.
         </p>
@@ -100,12 +100,12 @@ export default function About() {
 
       <section className="about-page-team" aria-labelledby="about-team-title">
         <div className="about-page-section-heading">
-          <p className="about-page-label">THE PEOPLE BEHIND LYX</p>
+          <p className="about-page-label">The people behind Lyx Realty Group</p>
           <h2 id="about-team-title">Meet the team.</h2>
         </div>
         <figure className="about-page-team-feature">
-          <img src="/team/lyx-team.jpeg" alt="The LYX Group team together in their office" loading="lazy" decoding="async" />
-          <figcaption><span>LYX GROUP</span><strong>People who make every move matter.</strong></figcaption>
+          <img src="/team/lyx-team.jpeg" alt="The Lyx Realty Group team together in their office" loading="lazy" decoding="async" />
+          <figcaption><span>Lyx Realty Group</span><strong>People who make every move matter.</strong></figcaption>
         </figure>
         {teamMembers.length ? (
           <div className="about-page-team-grid">

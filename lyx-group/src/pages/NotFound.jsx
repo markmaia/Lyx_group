@@ -3,8 +3,8 @@ import useSeo from "../lib/useSeo";
 
 export default function NotFound() {
   useSeo({
-    title: "Page not found | LYX Group",
-    description: "This page could not be found. Browse LYX Group property listings or contact our team.",
+    title: "Page not found | Lyx Realty Group",
+    description: "This page could not be found. Browse Lyx Realty Group property listings or contact our team.",
     noindex: true,
   });
 
@@ -14,7 +14,7 @@ export default function NotFound() {
       title="We couldn’t find that page."
       description="The page may have moved. Browse current property opportunities or contact our team for help."
     >
-      <p><a href="/">Return to the LYX Group homepage</a></p>
+      <p><a href="/">Return to the Lyx Realty Group homepage</a></p>
       <p><a href="/buy/residential">Browse residential properties</a></p>
     </InteriorLayout>
   );

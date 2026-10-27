@@ -6,23 +6,23 @@ const PHONE = "254741246659";
 const OPTIONS = [
   {
     label: "Buying a property",
-    message: "Hi LYX Group, I'm interested in buying a property. Could you help me with available options?",
+    message: "Hi Lyx Realty Group, I'm interested in buying a property. Could you help me with available options?",
   },
   {
     label: "Looking to rent",
-    message: "Hi LYX Group, I'm looking for a rental. Could you share what's currently available?",
+    message: "Hi Lyx Realty Group, I'm looking for a rental. Could you share what's currently available?",
   },
   {
     label: "Property valuation",
-    message: "Hi LYX Group, I'd like to request a property valuation.",
+    message: "Hi Lyx Realty Group, I'd like to request a property valuation.",
   },
   {
     label: "Off-plan / investment",
-    message: "Hi LYX Group, I'm interested in off-plan developments or investment opportunities.",
+    message: "Hi Lyx Realty Group, I'm interested in off-plan developments or investment opportunities.",
   },
   {
     label: "Talk to a person",
-    message: "Hi LYX Group, I'd like to speak with someone about a property.",
+    message: "Hi Lyx Realty Group, I'd like to speak with someone about a property.",
   },
 ];
 
@@ -65,19 +65,19 @@ export default function WhatsAppBot() {
 
       <aside
         className={open ? "wa-bot open" : "wa-bot"}
-        aria-label="Chat with LYX Group on WhatsApp"
+        aria-label="Chat with Lyx Realty Group on WhatsApp"
         aria-hidden={!open}
       >
         <header className="wa-bot-header">
           <span className="wa-bot-avatar"><WhatsAppIcon size={22} /></span>
           <div>
-            <strong>LYX Group</strong>
+            <strong>Lyx Realty Group</strong>
             <small>Typically replies within minutes</small>
           </div>
         </header>
 
         <div className="wa-bot-body">
-          <p className="wa-bot-greeting">Hi 👋 Welcome to LYX Group. What can we help you with today?</p>
+          <p className="wa-bot-greeting">Hi 👋 Welcome to Lyx Realty Group. What can we help you with today?</p>
           <div className="wa-bot-options">
             {OPTIONS.map((option) => (
               <button key={option.label} type="button" className="wa-bot-option" onClick={() => openChat(option.message)}>
@@ -93,7 +93,7 @@ export default function WhatsAppBot() {
         type="button"
         className={open ? "wa-fab active" : "wa-fab"}
         onClick={() => setOpen((current) => !current)}
-        aria-label={open ? "Close WhatsApp chat" : "Chat with LYX Group on WhatsApp"}
+        aria-label={open ? "Close WhatsApp chat" : "Chat with Lyx Realty Group on WhatsApp"}
         aria-expanded={open}
       >
         {open ? <span className="wa-fab-close" aria-hidden="true">✕</span> : <WhatsAppIcon size={28} />}

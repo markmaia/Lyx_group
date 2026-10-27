@@ -68,12 +68,12 @@ function setSeo(html, page, { origin = siteOrigin, image = defaultOgImage, type 
   output = metaTag(output, "name", "description", page.description);
   output = metaTag(output, "name", "robots", page.noindex ? "noindex, nofollow" : "index, follow");
   output = metaTag(output, "property", "og:type", type);
-  output = metaTag(output, "property", "og:site_name", "LYX Group");
+  output = metaTag(output, "property", "og:site_name", "Lyx Realty Group");
   output = metaTag(output, "property", "og:title", page.title);
   output = metaTag(output, "property", "og:description", page.description);
   output = metaTag(output, "property", "og:url", canonical);
   output = metaTag(output, "property", "og:image", image);
-  output = metaTag(output, "property", "og:image:alt", "LYX Group real estate in Kenya");
+  output = metaTag(output, "property", "og:image:alt", "Lyx Realty Group real estate in Kenya");
   output = metaTag(output, "name", "twitter:card", "summary_large_image");
   output = metaTag(output, "name", "twitter:title", page.title);
   output = metaTag(output, "name", "twitter:description", page.description);
@@ -84,7 +84,7 @@ function setSeo(html, page, { origin = siteOrigin, image = defaultOgImage, type 
   output = canonicalPattern.test(output) ? output.replace(canonicalPattern, canonicalTag) : output.replace("</head>", `  ${canonicalTag}\n  </head>`);
   const organization = {
     "@type": "Organization",
-    name: "LYX Group",
+    name: "Lyx Realty Group",
     url: `${siteOrigin}/`,
     logo: { "@type": "ImageObject", url: `${siteOrigin}/lyx-original-logo.jpeg` },
     email: "lyxrealtygroup@gmail.com",
@@ -100,7 +100,7 @@ function setSeo(html, page, { origin = siteOrigin, image = defaultOgImage, type 
   };
   const graph = [
     organization,
-    { "@type": "WebSite", name: "LYX Group", url: `${siteOrigin}/` },
+    { "@type": "WebSite", name: "Lyx Realty Group", url: `${siteOrigin}/` },
   ];
   if (schema) {
     const pageNode = { ...schema };
@@ -137,8 +137,8 @@ for (const page of publicSeoRoutes) await emitPage(page);
 
 const adminPage = {
   path: "/admin",
-  title: "Admin | LYX Group",
-  description: "Private LYX Group listing and content administration.",
+  title: "Admin | Lyx Realty Group",
+  description: "Private Lyx Realty Group listing and content administration.",
   heading: "Admin sign in",
   noindex: true,
 };
@@ -179,7 +179,7 @@ for (const property of properties) {
   const text = toPlainText(property.summary || property.description || `${property.title} property listing in Kenya.`);
   const page = {
     path: pathName,
-    title: `${property.title}${location ? ` in ${location}` : ""} | LYX Group`,
+    title: `${property.title}${location ? ` in ${location}` : ""} | Lyx Realty Group`,
     description: text.length > 155 ? `${text.slice(0, 152).trimEnd()}...` : text,
     heading: property.title,
   };
@@ -204,7 +204,7 @@ for (const article of articles) {
   const text = toPlainText(article.excerpt || article.title);
   const page = {
     path: pathName,
-    title: `${article.title} | LYX Journal | LYX Group`,
+    title: `${article.title} | Lyx Journal | Lyx Realty Group`,
     description: text.length > 155 ? `${text.slice(0, 152).trimEnd()}...` : text,
     heading: article.title,
   };
@@ -220,8 +220,8 @@ for (const article of articles) {
     datePublished: article.published_at || undefined,
     image: article.cover_image_url || undefined,
     mainEntityOfPage: new URL(pathName, `${siteOrigin}/`).href,
-    author: { "@type": "Organization", name: "LYX Group" },
-    publisher: { "@type": "Organization", name: "LYX Group", logo: { "@type": "ImageObject", url: `${siteOrigin}/lyx-original-logo.jpeg` } },
+    author: { "@type": "Organization", name: "Lyx Realty Group" },
+    publisher: { "@type": "Organization", name: "Lyx Realty Group", logo: { "@type": "ImageObject", url: `${siteOrigin}/lyx-original-logo.jpeg` } },
   };
   await emitPage(page, { image, type: "article", schema });
 }
@@ -235,7 +235,7 @@ const sitemap = [
 await writeFile(path.join(distRoot, "sitemap.xml"), `${sitemap}\n`);
 await writeFile(path.join(distRoot, "robots.txt"), `User-agent: *\nAllow: /\n\nSitemap: ${siteOrigin}/sitemap.xml\n`);
 
-const notFoundHtml = `<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex, follow"><title>Page not found | LYX Group</title><meta name="description" content="This page could not be found. Browse LYX Group property listings or contact our team."><style>body{margin:0;background:#f7f6f1;color:#173d2d;font:16px/1.7 Arial,sans-serif}.wrap{max-width:760px;margin:14vh auto;padding:40px 24px}p{color:#5c6a60}a{display:inline-block;margin:12px 18px 0 0;padding:11px 16px;background:#173d2d;color:white;text-decoration:none}small{color:#92784b;font-weight:bold;letter-spacing:.16em}</style></head><body><main class="wrap"><small>LYX GROUP</small><h1>We couldn’t find that page.</h1><p>The page may have moved. Browse current property opportunities or contact our team for help.</p><a href="/">Go to homepage</a><a href="/buy/residential">Browse homes</a><a href="/contact">Contact us</a></main></body></html>`;
+const notFoundHtml = `<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex, follow"><title>Page not found | Lyx Realty Group</title><meta name="description" content="This page could not be found. Browse Lyx Realty Group property listings or contact our team."><style>body{margin:0;background:#f7f6f1;color:#173d2d;font:16px/1.7 Arial,sans-serif}.wrap{max-width:760px;margin:14vh auto;padding:40px 24px}p{color:#5c6a60}a{display:inline-block;margin:12px 18px 0 0;padding:11px 16px;background:#173d2d;color:white;text-decoration:none}small{color:#92784b;font-weight:bold;letter-spacing:.16em}</style></head><body><main class="wrap"><small>Lyx Realty Group</small><h1>We couldn’t find that page.</h1><p>The page may have moved. Browse current property opportunities or contact our team for help.</p><a href="/">Go to homepage</a><a href="/buy/residential">Browse homes</a><a href="/contact">Contact us</a></main></body></html>`;
 await writeFile(path.join(distRoot, "404.html"), notFoundHtml);
 
 console.log(`Generated sitemap.xml and robots.txt with ${sitemapPaths.size} public URLs for ${siteOrigin}.`);

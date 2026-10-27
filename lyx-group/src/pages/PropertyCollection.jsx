@@ -23,7 +23,7 @@ function ListingCard({ property, purpose }) {
       <div className="residential-gallery">
         {image && !failedImages.includes(image)
           ? <a className="residential-gallery-link" href={href} aria-label={`View details for ${property.title}`}><img src={image} alt={`${property.title}${images.length > 1 ? `, photo ${activeImage + 1}` : ""}`} loading="lazy" onError={() => setFailedImages((current) => [...current, image])} /></a>
-          : <div className="residential-photo-empty">LYX GROUP</div>}
+          : <div className="residential-photo-empty">Lyx Realty Group</div>}
         {images.length > 1 && <>
           <button className="residential-gallery-arrow residential-gallery-previous" type="button" onClick={() => moveImage(-1)} aria-label="Previous photo"><ArrowLeft size={17} /></button>
           <button className="residential-gallery-arrow residential-gallery-next" type="button" onClick={() => moveImage(1)} aria-label="Next photo"><ArrowRight size={17} /></button>
@@ -61,7 +61,7 @@ export default function PropertyCollection({ eyebrow, title, description, proper
     <InteriorLayout eyebrow={eyebrow} title={title} description={description}>
       <section className="residential-results" aria-live="polite">
         <div className="residential-results-heading">
-          <div><span>LYX GROUP COLLECTION</span><h2>{collectionTitle}</h2></div>
+          <div><span>Lyx Realty Group collection</span><h2>{collectionTitle}</h2></div>
           {!loading && !error && <p>{properties.length} {properties.length === 1 ? "listing" : "listings"}</p>}
         </div>
         {loading ? <p className="residential-results-message">Loading available listings…</p>

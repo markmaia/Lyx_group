@@ -14,7 +14,7 @@ function EmailIcon({ size = 23 }) {
 }
 
 const phoneNumber = "+254741246659";
-const whatsappMessage = encodeURIComponent("Hi LYX Group, I'd like to speak with your team about a property.");
+const whatsappMessage = encodeURIComponent("Hi Lyx Realty Group, I'd like to speak with your team about a property.");
 
 const contactMethods = [
   {
@@ -28,7 +28,7 @@ const contactMethods = [
   },
   {
     title: "Chat on WhatsApp",
-    detail: "Message LYX Group",
+    detail: "Message Lyx Realty Group",
     description: "Start a WhatsApp conversation about buying, renting, or investing.",
     href: `https://wa.me/${phoneNumber.replace("+", "")}?text=${whatsappMessage}`,
     action: "Message us",
@@ -83,10 +83,10 @@ export default function Contact() {
   return (
     <InteriorLayout
       eyebrow="GET IN TOUCH"
-      title="Contact LYX Group"
+      title="Contact Lyx Realty Group"
       description="Tell us what you are looking for. Choose the easiest way to reach our team and we’ll be glad to help."
     >
-      <section className="contact-method-grid" aria-label="Ways to contact LYX Group">
+      <section className="contact-method-grid" aria-label="Ways to contact Lyx Realty Group">
         {contactMethods.map(({ title, detail, description, href, action, Icon, external, iconTone }) => (
           <article className="contact-method-card" key={title}>
             <span className={`contact-method-icon contact-method-icon-${iconTone}`}><Icon size={21} strokeWidth={1.8} /></span>
@@ -112,7 +112,7 @@ export default function Contact() {
           <label>Phone <span>*</span><input name="phone" type="tel" value={form.phone} onChange={updateForm} autoComplete="tel" required maxLength={40} /></label>
           <label>Email<input name="email" type="email" value={form.email} onChange={updateForm} autoComplete="email" maxLength={254} /></label>
           <label className="web-lead-message">Description <span>*</span><textarea name="description" value={form.description} onChange={updateForm} required minLength={10} maxLength={5000} rows={5} /></label>
-          <label className="web-lead-consent"><input name="consent" type="checkbox" checked={form.consent} onChange={updateForm} required /><span>I agree that LYX Group may contact me about this enquiry.</span></label>
+          <label className="web-lead-consent"><input name="consent" type="checkbox" checked={form.consent} onChange={updateForm} required /><span>I agree that Lyx Realty Group may contact me about this enquiry.</span></label>
           <button className="web-lead-submit" type="submit" disabled={busy}>{busy ? "Sending..." : "Send enquiry"} {!busy && <ArrowUpRight size={16} />}</button>
         </form>
       </section>

@@ -332,29 +332,29 @@ export default function Admin() {
     finally { setBusy(false); }
   }
 
-  if (checking) return <main className="admin-page"><div className="admin-shell admin-state"><span className="admin-kicker">LYX GROUP · ADMIN</span><h1>Checking access</h1><p>Verifying your admin account with Supabase…</p></div></main>;
+  if (checking) return <main className="admin-page"><div className="admin-shell admin-state"><span className="admin-kicker">Lyx Realty Group · ADMIN</span><h1>Checking access</h1><p>Verifying your admin account with Supabase…</p></div></main>;
 
   if (!authorized) return (
     <main className="admin-page admin-login-page">
-      <a className="admin-brand" href="/">LYX <span>GROUP</span></a>
+      <a className="admin-brand" href="/">Lyx <span>Realty Group</span></a>
       <form className="admin-login" onSubmit={signIn}>
-        <span className="admin-kicker">LYX GROUP · LISTING DESK</span>
+        <span className="admin-kicker">Lyx Realty Group · LISTING DESK</span>
         <h1>Admin sign in</h1>
         <p>Sign in with the staff account created in your Supabase project.</p>
         {notice && <div className="admin-notice">{notice}</div>}{error && <div className="admin-error">{error}</div>}
         <label>Email<input type="email" autoComplete="username" required value={email} onChange={(event) => setEmail(event.target.value)} /></label>
         <label>Password<input type="password" autoComplete="current-password" required value={password} onChange={(event) => setPassword(event.target.value)} /></label>
         <button className="admin-primary" disabled={busy}>{busy ? "Signing in…" : "Sign in"}</button>
-        <a className="admin-back" href="/">← Return to LYX Group</a>
+        <a className="admin-back" href="/">← Return to Lyx Realty Group</a>
       </form>
     </main>
   );
 
   return (
     <main className="admin-page">
-      <header className="admin-topbar"><a className="admin-brand" href="/">LYX <span>GROUP</span></a><div className="admin-account"><span>{user?.email}</span><button onClick={() => signOut()}>Sign out</button></div></header>
+      <header className="admin-topbar"><a className="admin-brand" href="/">Lyx <span>Realty Group</span></a><div className="admin-account"><span>{user?.email}</span><button onClick={() => signOut()}>Sign out</button></div></header>
       <div className="admin-shell">
-        <div className="admin-heading"><div><span className="admin-kicker">LYX GROUP · LISTING DESK</span><h1>Property listings</h1><p>Create and maintain the properties shown across your website.</p></div><button className="admin-primary admin-new-button" onClick={startNew}>＋ New listing</button></div>
+        <div className="admin-heading"><div><span className="admin-kicker">Lyx Realty Group · LISTING DESK</span><h1>Property listings</h1><p>Create and maintain the properties shown across your website.</p></div><button className="admin-primary admin-new-button" onClick={startNew}>＋ New listing</button></div>
         {notice && <div className="admin-notice">{notice}</div>}{error && <div className="admin-error">{error}</div>}
         <a className="admin-blog-shortcut" href="#article-editor">Write a blog post <span aria-hidden="true">↗</span></a>
         <div className="admin-stats">
@@ -394,12 +394,12 @@ export default function Admin() {
         </section>
 
         <section className="admin-panel admin-listings"><div className="admin-panel-title"><div><span className="admin-kicker">YOUR INVENTORY</span><h2>All listings <span className="admin-count">{listings.length}</span></h2></div></div>
-          {listings.length === 0 ? <div className="admin-empty"><b>No listings yet</b><p>Create your first property listing above. It will show on the public site when you publish it.</p><button className="admin-text-button" onClick={startNew}>Create a listing →</button></div> : <div className="admin-table-wrap"><table><thead><tr><th>Property</th><th>Location</th><th>Price</th><th>Status</th><th>Actions</th></tr></thead><tbody>{listings.map((listing) => <tr key={listing.id}><td><div className="admin-property-cell">{listing.image_urls?.[0] ? <img src={listing.image_urls[0]} alt="" /> : <div className="admin-no-photo">LYX</div>}<div><b>{listing.title}</b><small>{types.find(([value]) => value === listing.property_type)?.[1]} · {listing.transaction_type === "rent" ? "Rent" : "Sale"}</small></div></div></td><td>{[listing.area, listing.city].filter(Boolean).join(", ") || "—"}</td><td>{displayPrice(listing.price_ksh)}</td><td><span className={`admin-status admin-status-${listing.status}`}>{listing.status}</span>{listing.featured && <small className="admin-featured">Featured</small>}</td><td><div className="admin-row-actions"><button onClick={() => editListing(listing)}>Edit</button><button className="admin-delete" onClick={() => deleteListing(listing)} disabled={busy}>Delete</button></div></td></tr>)}</tbody></table></div>}
+          {listings.length === 0 ? <div className="admin-empty"><b>No listings yet</b><p>Create your first property listing above. It will show on the public site when you publish it.</p><button className="admin-text-button" onClick={startNew}>Create a listing →</button></div> : <div className="admin-table-wrap"><table><thead><tr><th>Property</th><th>Location</th><th>Price</th><th>Status</th><th>Actions</th></tr></thead><tbody>{listings.map((listing) => <tr key={listing.id}><td><div className="admin-property-cell">{listing.image_urls?.[0] ? <img src={listing.image_urls[0]} alt="" /> : <div className="admin-no-photo">Lyx</div>}<div><b>{listing.title}</b><small>{types.find(([value]) => value === listing.property_type)?.[1]} · {listing.transaction_type === "rent" ? "Rent" : "Sale"}</small></div></div></td><td>{[listing.area, listing.city].filter(Boolean).join(", ") || "—"}</td><td>{displayPrice(listing.price_ksh)}</td><td><span className={`admin-status admin-status-${listing.status}`}>{listing.status}</span>{listing.featured && <small className="admin-featured">Featured</small>}</td><td><div className="admin-row-actions"><button onClick={() => editListing(listing)}>Edit</button><button className="admin-delete" onClick={() => deleteListing(listing)} disabled={busy}>Delete</button></div></td></tr>)}</tbody></table></div>}
         </section>
 
         <section className="admin-panel" id="article-editor">
           <div className="admin-panel-title">
-            <div><span className="admin-kicker">LYX JOURNAL</span><h2>{editingArticleId ? "Edit blog post" : "Write a blog post"}</h2></div>
+            <div><span className="admin-kicker">Lyx Realty Group Journal</span><h2>{editingArticleId ? "Edit blog post" : "Write a blog post"}</h2></div>
             <button className="admin-primary" type="button" onClick={startNewArticle}>＋ New post</button>
           </div>
           <form onSubmit={saveArticle}>

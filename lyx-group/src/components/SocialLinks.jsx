@@ -16,16 +16,16 @@ function TikTokIcon() {
 
 export default function SocialLinks({ className = "" }) {
   return (
-    <nav className={`social-links ${className}`} aria-label="LYX Group social media">
+    <nav className={`social-links ${className}`} aria-label="Lyx Realty Group social media">
       {socialLinks.map(({ name, href, path }) => (
-        <a key={name} href={href} target="_blank" rel="noreferrer" aria-label={`LYX Group on ${name}`} title={name}>
+        <a key={name} href={href} target="_blank" rel="noreferrer" aria-label={`Lyx Realty Group on ${name}`} title={name}>
           <BrandIcon path={path} />
         </a>
       ))}
-      <a href="https://www.tiktok.com/@lyx.realty.group" target="_blank" rel="noreferrer" aria-label="LYX Group on TikTok" title="TikTok">
+      <a href="https://www.tiktok.com/@lyx.realty.group" target="_blank" rel="noreferrer" aria-label="Lyx Realty Group on TikTok" title="TikTok">
         <TikTokIcon />
       </a>
-      <a href="mailto:lyxrealtygroup@gmail.com" aria-label="Email LYX Group at lyxrealtygroup@gmail.com" title="lyxrealtygroup@gmail.com">
+      <a href="mailto:lyxrealtygroup@gmail.com" aria-label="Email Lyx Realty Group at lyxrealtygroup@gmail.com" title="lyxrealtygroup@gmail.com">
         <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
           <rect x="3" y="5" width="18" height="14" rx="1.5" />
           <path d="m4 7 8 6 8-6" />

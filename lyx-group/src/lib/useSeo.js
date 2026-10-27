@@ -69,12 +69,12 @@ export default function useSeo(metadata) {
     upsertMeta('meta[name="robots"]', { name: "robots" }, noindex ? "noindex, nofollow" : "index, follow");
     upsertLink("canonical", canonical);
     upsertMeta('meta[property="og:type"]', { property: "og:type" }, type);
-    upsertMeta('meta[property="og:site_name"]', { property: "og:site_name" }, "LYX Group");
+    upsertMeta('meta[property="og:site_name"]', { property: "og:site_name" }, "Lyx Realty Group");
     upsertMeta('meta[property="og:title"]', { property: "og:title" }, title);
     upsertMeta('meta[property="og:description"]', { property: "og:description" }, description);
     upsertMeta('meta[property="og:url"]', { property: "og:url" }, canonical);
     upsertMeta('meta[property="og:image"]', { property: "og:image" }, imageUrl);
-    upsertMeta('meta[property="og:image:alt"]', { property: "og:image:alt" }, "LYX Group real estate in Kenya");
+    upsertMeta('meta[property="og:image:alt"]', { property: "og:image:alt" }, "Lyx Realty Group real estate in Kenya");
     upsertMeta('meta[name="twitter:card"]', { name: "twitter:card" }, "summary_large_image");
     upsertMeta('meta[name="twitter:title"]', { name: "twitter:title" }, title);
     upsertMeta('meta[name="twitter:description"]', { name: "twitter:description" }, description);
@@ -83,7 +83,7 @@ export default function useSeo(metadata) {
     const organization = {
       "@context": "https://schema.org",
       "@type": "Organization",
-      name: "LYX Group",
+      name: "Lyx Realty Group",
       url: `${origin}/`,
       logo: `${origin}/lyx-original-logo.jpeg`,
       email: "lyxrealtygroup@gmail.com",
@@ -99,7 +99,7 @@ export default function useSeo(metadata) {
     };
     const pageNodes = [{
       "@type": "WebSite",
-      name: "LYX Group",
+      name: "Lyx Realty Group",
       url: `${origin}/`,
     }];
     if (pageSchema) {

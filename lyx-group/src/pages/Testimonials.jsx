@@ -7,7 +7,7 @@ const reviews = [
     initials: "WM",
     date: "2 weeks ago",
     rating: 5,
-    text: "LYX Group made our first home purchase feel manageable. They explained every step clearly and never pushed us toward anything we weren't comfortable with. We found a 3-bedroom in Kilimani within our budget.",
+    text: "Lyx Realty Group made our first home purchase feel manageable. They explained every step clearly and never pushed us toward anything we weren't comfortable with. We found a 3-bedroom in Kilimani within our budget.",
   },
   {
     name: "David K.",
@@ -35,7 +35,7 @@ const reviews = [
     initials: "GW",
     date: "2 months ago",
     rating: 5,
-    text: "LYX Group helped me find a rental in Westlands in under two weeks. They listened to exactly what I needed and didn't waste my time with properties that didn't fit. Very professional.",
+    text: "Lyx Realty Group helped me find a rental in Westlands in under two weeks. They listened to exactly what I needed and didn't waste my time with properties that didn't fit. Very professional.",
   },
   {
     name: "James O.",
@@ -49,7 +49,7 @@ const reviews = [
     initials: "FA",
     date: "3 months ago",
     rating: 5,
-    text: "I sold my property through LYX Group and was impressed by how organized they were. Good photography, honest pricing advice, and regular updates. Would use them again.",
+    text: "I sold my property through Lyx Realty Group and was impressed by how organized they were. Good photography, honest pricing advice, and regular updates. Would use them again.",
   },
   {
     name: "Brian M.",
@@ -70,7 +70,7 @@ const reviews = [
     initials: "KT",
     date: "6 months ago",
     rating: 5,
-    text: "Transparent, responsive, and professional. LYX Group made a stressful process feel much easier. I've already recommended them to two friends who are looking to buy.",
+    text: "Transparent, responsive, and professional. Lyx Realty Group made a stressful process feel much easier. I've already recommended them to two friends who are looking to buy.",
   },
 ];
 
@@ -106,7 +106,7 @@ export default function Testimonials() {
     <InteriorLayout
       eyebrow="CLIENT STORIES"
       title="What clients say."
-      description="Real feedback from buyers, renters, sellers, and investors who have worked with LYX Group."
+      description="Real feedback from buyers, renters, sellers, and investors who have worked with Lyx Realty Group."
     >
       <div className="reviews-summary">
         <div className="reviews-summary-score">
@@ -118,7 +118,7 @@ export default function Testimonials() {
         </div>
         <a
           className="reviews-google-link"
-          href="https://www.google.com/search?q=LYX+Group+reviews"
+          href="https://www.google.com/search?q=Lyx+Realty+Group+reviews"
           target="_blank"
           rel="noopener noreferrer"
         >

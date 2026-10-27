@@ -5,8 +5,8 @@ const faqGroups = [
     title: "Ownership & Legalities",
     items: [
       {
-        q: "Why should I work with LYX Group instead of other agencies?",
-        a: "LYX Group is built on trust, professionalism, and a commitment to delivering value-driven property decisions. We research the market carefully and conduct due diligence on every property we present, so that what you see is strategically located, legally compliant, and positioned for long-term value.",
+        q: "Why should I work with Lyx Realty Group instead of other agencies?",
+        a: "Lyx Realty Group is built on trust, professionalism, and a commitment to delivering value-driven property decisions. We research the market carefully and conduct due diligence on every property we present, so that what you see is strategically located, legally compliant, and positioned for long-term value.",
       },
       {
         q: "What are the requirements for a foreigner to own real estate in Kenya?",
@@ -114,7 +114,7 @@ export default function FAQ() {
           <p>
             Our team is happy to help with anything not covered here.{" "}
             <a href="/#contact" style={{ color: "#123f2b", fontWeight: 700 }}>
-              Contact LYX Group
+              Contact Lyx Realty Group
             </a>
             .
           </p>

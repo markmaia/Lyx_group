@@ -86,7 +86,7 @@ function PropertySearch() {
       </form>
       {searched && <div className="search-results" role="status" aria-live="polite">
         <div className="search-results-toolbar"><span>{searchError ? "Search unavailable" : isSearching ? "Searching" : `${results.length} ${results.length === 1 ? "match" : "matches"}`}</span><button type="button" onClick={clearSearch}><X size={14} /> Clear search</button></div>
-        {searchError ? <p className="search-result">{searchError}</p> : isSearching ? <p className="search-result">Searching published listings…</p> : results.length ? <div className="search-result-list"><PropertyGrid properties={results} /></div> : <p className="search-result">No published listings match those filters yet. <a href="#contact">Ask LYX Group about current opportunities.</a></p>}
+        {searchError ? <p className="search-result">{searchError}</p> : isSearching ? <p className="search-result">Searching published listings…</p> : results.length ? <div className="search-result-list"><PropertyGrid properties={results} /></div> : <p className="search-result">No published listings match those filters yet. <a href="#contact">Ask Lyx Realty Group about current opportunities.</a></p>}
       </div>}
     </div>
   );
@@ -142,7 +142,7 @@ function FeaturedProperties() {
     <p className="luxury-kicker">OUR COLLECTION</p>
     <h3>{loading ? "Loading featured properties…" : error ? "Property listings are not connected yet." : "New opportunities are being prepared."}</h3>
     <p>{loading ? "Checking for published listings." : error || "No featured property records have been published. Contact our team to discuss current availability."}</p>
-    <a className="text-link" href="#contact">Enquire with LYX Group <ArrowRight size={16} /></a>
+    <a className="text-link" href="#contact">Enquire with Lyx Realty Group <ArrowRight size={16} /></a>
   </div>;
 }
 
@@ -248,7 +248,7 @@ export default function HomePage() {
   return (
     <div className="site luxury-site">
       <header className="navbar">
-        <a className="logo" href="#home" aria-label="LYX Group home"><img src={logo} alt="" /><span>LYX GROUP</span></a>
+        <a className="logo" href="#home" aria-label="Lyx Realty Group home"><img src={logo} alt="" /><span>Lyx Realty Group</span></a>
         <nav className={menuOpen ? "nav-links open" : "nav-links"} aria-label="Main navigation">
           <a href="#home" onClick={() => setMenuOpen(false)}>Home</a>
           <a href="/about" onClick={() => setMenuOpen(false)}>About</a>
@@ -260,7 +260,7 @@ export default function HomePage() {
           <a href="/testimonials" onClick={() => setMenuOpen(false)}>Testimonials</a>
           <details className="nav-dropdown"><summary>Resources</summary><div className="dropdown-menu"><a href="/resources/blog" onClick={() => setMenuOpen(false)}>Blog</a><a href="/resources/faq" onClick={() => setMenuOpen(false)}>FAQ</a></div></details>
         </nav>
-        <a className="nav-contact" href="https://wa.me/254741246659?text=Hi%20LYX%20Group%2C%20I%27d%20like%20to%20talk%20about%20a%20property." target="_blank" rel="noreferrer">Let's Talk <ArrowUpRight size={16} /></a>
+        <a className="nav-contact" href="https://wa.me/254741246659?text=Hi%20Lyx%20Realty%20Group%2C%20I%27d%20like%20to%20talk%20about%20a%20property." target="_blank" rel="noreferrer">Let's Talk <ArrowUpRight size={16} /></a>
         <button className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)} aria-label={menuOpen ? "Close menu" : "Open menu"}>{menuOpen ? <X /> : <Menu />}</button>
       </header>
       <section className="luxury-hero" id="home">
@@ -272,12 +272,12 @@ export default function HomePage() {
         <div className="luxury-hero-content">
           <p className="luxury-eyebrow"><span /> PROPERTY & INVESTMENT · KENYA</p>
           <h1>Discover Exceptional Properties.<br /><em>Invest in Your Future.</em></h1>
-          <p className="luxury-hero-copy">Explore premium homes, commercial spaces, and exclusive property investment opportunities across Kenya with LYX Group.</p>
+          <p className="luxury-hero-copy">Explore premium homes, commercial spaces, and exclusive property investment opportunities across Kenya with Lyx Realty Group.</p>
           <div className="luxury-hero-actions">
             <a className="button-gold" href="#categories">Explore Properties <ArrowRight size={16} /></a>
             <a className="button-outline-light" href="#contact">Talk to an Expert <ArrowUpRight size={16} /></a>
           </div>
-          <div className="hero-trust-badges" aria-label="What you can expect from LYX Group">
+          <div className="hero-trust-badges" aria-label="What you can expect from Lyx Realty Group">
             <span className="hero-trust-badge hero-trust-experts"><ShieldCheck size={20} strokeWidth={2.1} aria-hidden="true" />Trusted Experts</span>
             <span className="hero-trust-badge hero-trust-rated"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2.5 2.9 5.9 6.5.9-4.7 4.6 1.1 6.5-5.8-3.1-5.8 3.1 1.1-6.5-4.7-4.6 6.5-.9L12 2.5Z" /></svg>5-Star Rated</span>
             <span className="hero-trust-badge hero-trust-client"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 8.8c0 4.1-8.8 10-8.8 10s-8.8-5.9-8.8-10a4.8 4.8 0 0 1 8.8-2.6 4.8 4.8 0 0 1 8.8 2.6Z" /></svg>Client-Focused</span>
@@ -336,38 +336,38 @@ export default function HomePage() {
 
       <section className="development-band">
         <div className="development-copy"><p className="luxury-kicker">THE NEXT CHAPTER</p><h2>Featured Developments &amp; Investment</h2><p>Explore opportunities with the right guidance, from new developments to long-term property investments.</p><a className="button-gold" href="/buy/off-plan">Explore Off-plan <ArrowUpRight size={16} /></a></div>
-        <div className="development-art"><img className="development-art-image" src="/images/featured-development.jpeg" alt="Modern high-rise apartment development at dusk" /><span className="development-art-caption">LYX GROUP · KENYA</span></div>
+        <div className="development-art"><img className="development-art-image" src="/images/featured-development.jpeg" alt="Modern high-rise apartment development at dusk" /><span className="development-art-caption">Lyx Realty Group · KENYA</span></div>
       </section>
 
       <section className="luxury-section why-section" id="services">
-        <div className="section-heading"><p className="luxury-kicker">THE LYX APPROACH</p><h2>Why Choose LYX Group?</h2><p>Thoughtful real estate guidance, shaped around your goals.</p></div>
+        <div className="section-heading"><p className="luxury-kicker">The Lyx Realty Group approach</p><h2>Why Choose Lyx Realty Group?</h2><p>Thoughtful real estate guidance, shaped around your goals.</p></div>
         <div className="benefit-grid">{benefits.map(({ icon: Icon, title, text }, index) => <article className="benefit-card" key={title}><span className="benefit-number">0{index + 1}</span><Icon size={26} strokeWidth={1.2} /><h3>{title}</h3><p>{text}</p></article>)}</div>
       </section>
 
       <section className="about-band" id="about">
-        <div className="about-art" role="img" aria-label="LYX Group gold logo on a white background">
-          <img className="about-art-logo" src={logo} alt="LYX Group logo" />
+        <div className="about-art" role="img" aria-label="Lyx Realty Group gold logo on a black background">
+          <img className="about-art-logo" src={logo} alt="Lyx Realty Group logo" />
         </div>
-        <div className="about-copy"><p className="luxury-kicker">ABOUT LYX GROUP</p><h2>Your Trusted Partner in Real Estate</h2><p>LYX Group helps clients explore property opportunities, from residential homes and commercial spaces to land and developments.</p><a className="text-link" href="/about">Learn More <ArrowRight size={16} /></a></div>
+        <div className="about-copy"><p className="luxury-kicker">About Lyx Realty Group</p><h2>Your Trusted Partner in Real Estate</h2><p>Lyx Realty Group helps clients explore property opportunities, from residential homes and commercial spaces to land and developments.</p><a className="text-link" href="/about">Learn More <ArrowRight size={16} /></a></div>
       </section>
 
       <section className="luxury-section insights-empty">
-        <div className="section-heading"><p className="luxury-kicker">THE LYX JOURNAL</p><h2>Insights for Smarter Property Decisions</h2><p>Practical perspectives for your next property move.</p></div>
+        <div className="section-heading"><p className="luxury-kicker">The Lyx Realty Group Journal</p><h2>Insights for Smarter Property Decisions</h2><p>Practical perspectives for your next property move.</p></div>
         <div className="journal-empty"><Sparkles size={22} strokeWidth={1.25} /><p>Property insights will be shared here as they become available.</p><a className="text-link" href="/resources/blog">Visit Resources <ArrowRight size={16} /></a></div>
       </section>
 
       <section className="contact-cta" id="contact">
         <p className="luxury-kicker">LET'S FIND THE RIGHT OPPORTUNITY</p>
-        <h2>Find Your Next Property<br /><em>with LYX Group.</em></h2>
+        <h2>Find Your Next Property<br /><em>with Lyx Realty Group.</em></h2>
         <p>Whether you're buying, renting, selling, or exploring investment opportunities, our team is ready to assist.</p>
         <div className="contact-cta-actions"><a className="button-gold" href="/contact">Contact Us <ArrowUpRight size={16} /></a><a className="contact-email" href="mailto:lyxrealtygroup@gmail.com">lyxrealtygroup@gmail.com</a></div>
       </section>
 
       <footer className="luxury-footer">
-        <a className="logo" href="#home" aria-label="LYX Group home"><img src={logo} alt="" /><span>LYX GROUP</span></a>
+        <a className="logo" href="#home" aria-label="Lyx Realty Group home"><img src={logo} alt="" /><span>Lyx Realty Group</span></a>
         <p>Thoughtful guidance for every property move.</p>
         <SocialLinks className="footer-social-links" />
-        <span className="footer-copyright">LYX GROUP © 2026 · EST. 2015 <span aria-hidden="true">·</span> <a className="footer-credit" href="https://mktechsoln.vercel.app/" target="_blank" rel="noreferrer">Made by MKtech Solution</a></span>
+        <span className="footer-copyright">Lyx Realty Group © 2026 · EST. 2015 <span aria-hidden="true">·</span> <a className="footer-credit" href="https://mktechsoln.vercel.app/" target="_blank" rel="noreferrer">Made by MKtech Solution</a></span>
       </footer>
     </div>
   );

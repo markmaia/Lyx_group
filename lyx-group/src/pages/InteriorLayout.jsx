@@ -7,9 +7,9 @@ export default function InteriorLayout({ eyebrow, title, description, children, 
   return (
     <div className="site interior-page">
       <header className="inner-header">
-        <a className="logo" href="/" aria-label="LYX Group home">
-          <img src={logo} alt="LYX Group" />
-          <span>LYX GROUP</span>
+        <a className="logo" href="/" aria-label="Lyx Realty Group home">
+          <img src={logo} alt="Lyx Realty Group" />
+          <span>Lyx Realty Group</span>
         </a>
         <nav className="inner-nav" aria-label="Main navigation">
           <a href="/">Home</a>
@@ -48,7 +48,7 @@ export default function InteriorLayout({ eyebrow, title, description, children, 
         <a className="interior-back" href="/"><ArrowRight size={16} /> Back to home</a>
       </main>
       <footer className="footer">
-        <a className="logo" href="/" aria-label="LYX Group home"><img src={logo} alt="LYX Group" /><span>LYX GROUP</span></a>
+        <a className="logo" href="/" aria-label="Lyx Realty Group home"><img src={logo} alt="Lyx Realty Group" /><span>Lyx Realty Group</span></a>
         <p>Built for a new perspective.</p>
         <SocialLinks className="footer-social-links" />
         <a className="footer-credit" href="https://mktechsoln.vercel.app/" target="_blank" rel="noreferrer">Made by MKtech Solution</a>
