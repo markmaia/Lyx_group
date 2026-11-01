@@ -80,10 +80,9 @@
 
 .luxury-site .logo img {
   display: block;
-  width: 130px;
-  height: 87px;
-  overflow: hidden;
-  background: #080808;
+  width: 50px;
+  height: auto;
+  background: transparent;
   object-fit: contain;
 }
 
@@ -1171,7 +1170,7 @@
   display: block;
   width: 100%;
   height: 100%;
-  background: #080808;
+  background: transparent;
   object-fit: contain;
 }
 
@@ -1820,5 +1819,311 @@
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+/* ============================================
+   COMMERCIAL FILTERS & BADGES
+   ============================================ */
+
+.collection-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: 24px;
+  padding: 16px;
+  background: #f8f5ee;
+  border: 1px solid #e0dfd5;
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.filter-group span {
+  font-size: 12px;
+  font-weight: 700;
+  color: #173d2d;
+  margin-right: 4px;
+}
+
+.filter-group button {
+  padding: 6px 14px;
+  border: 1px solid #d3dbd2;
+  background: #fff;
+  color: #5b6a5f;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.filter-group button:hover {
+  border-color: #173d2d;
+}
+
+.filter-group button.active {
+  background: #173d2d;
+  border-color: #173d2d;
+  color: #fff;
+}
+
+.residential-badges {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  display: flex;
+  gap: 6px;
+  z-index: 2;
+}
+
+.badge-purpose,
+.badge-status {
+  padding: 4px 8px;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-radius: 2px;
+}
+
+.badge-purpose {
+  background: rgba(23, 61, 45, 0.9);
+  color: #fff;
+  backdrop-filter: blur(4px);
+}
+
+.badge-ready {
+  background: #25d366; /* Green */
+  color: #fff;
+}
+
+.badge-ongoing {
+  background: #f59e0b; /* Orange */
+  color: #fff;
+}
+
+@media (max-width: 600px) {
+  .collection-filters {
+    flex-direction: column;
+    gap: 12px;
+  }
+}
+
+/* ============================================
+   PROPERTY UNITS & AMENITIES (HINES STYLE)
+   ============================================ */
+
+.property-units-section,
+.property-detail-amenities {
+  grid-column: 1 / -1;
+  margin-top: 40px;
+  padding-top: 30px;
+  border-top: 1px solid #e0dfd5;
+}
+
+.property-units-section h2,
+.property-detail-amenities h2 {
+  font: 400 28px/1.2 'Playfair Display', Georgia, serif;
+  color: #173d2d;
+  margin-bottom: 8px;
+}
+
+.property-units-section > p {
+  color: #69766d;
+  font-size: 14px;
+  margin-bottom: 24px;
+}
+
+.property-units-table {
+  border: 1px solid #e0dfd5;
+  background: #fff;
+}
+
+.property-units-header {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1.5fr;
+  padding: 16px 20px;
+  background: #f8f5ee;
+  border-bottom: 1px solid #e0dfd5;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #92784b;
+}
+
+.property-units-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1.5fr;
+  padding: 20px;
+  border-bottom: 1px solid #f0efe8;
+  align-items: center;
+  font-size: 14px;
+  color: #5b6a5f;
+}
+
+.property-units-row:last-child {
+  border-bottom: 0;
+}
+
+.unit-name {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 18px;
+  color: #173d2d;
+  font-weight: 500;
+}
+
+.unit-price {
+  font-weight: 700;
+  color: #173d2d;
+}
+
+.amenities-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.amenities-grid span {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: #5b6a5f;
+}
+
+.amenities-grid svg {
+  color: #a7864e;
+}
+
+@media (max-width: 700px) {
+  .property-units-header {
+    display: none;
+  }
+  
+  .property-units-row {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  
+  .property-units-row .unit-name {
+    grid-column: 1 / -1;
+    margin-bottom: 5px;
+  }
+  
+  .amenities-grid {
+    grid-template-columns: 1fr;
+  }
+}
+/* ============================================
+   INTERNATIONAL BANNER
+   ============================================ */
+
+.international-banner {
+  position: relative;
+  margin: 60px clamp(24px, 8vw, 116px);
+  padding: 70px 50px;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #0b2d1e; 
+  background-image: 
+    linear-gradient(90deg, rgba(11, 45, 30, 0.95) 0%, rgba(11, 45, 30, 0.75) 45%, rgba(11, 45, 30, 0.1) 100%), 
+    url('/images/zanzibar-banner.jpg');
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+}
+
+.international-banner-content {
+  position: relative;
+  z-index: 2;
+  max-width: 520px;
+}
+
+.international-banner h2 {
+  margin: 0 0 15px;
+  color: #fff;
+  font: 400 clamp(36px, 4.5vw, 54px)/1.1 'Playfair Display', Georgia, serif;
+  letter-spacing: -0.03em;
+}
+
+.international-banner h2 em {
+  color: var(--gold-light);
+  font-style: italic;
+}
+
+.international-banner p {
+  margin: 0 0 30px;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+@media (max-width: 600px) {
+  .international-banner {
+    padding: 40px 24px;
+    margin: 40px 20px;
+    background-image: 
+      linear-gradient(90deg, rgba(11, 45, 30, 0.95) 0%, rgba(11, 45, 30, 0.85) 100%), 
+      url('/images/zanzibar-banner.jpg');
+  }
+}
+
+/* ============================================
+   INTERNATIONAL BANNER (HOMEPAGE)
+   ============================================ */
+
+.international-banner {
+  position: relative;
+  margin: 60px clamp(24px, 8vw, 116px);
+  padding: 70px 50px;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #0b2d1e; 
+  /* Make sure your image is saved as public/images/zanzibar-banner.jpg */
+  background-image: 
+    linear-gradient(90deg, rgba(11, 45, 30, 0.95) 0%, rgba(11, 45, 30, 0.75) 45%, rgba(11, 45, 30, 0.1) 100%), 
+    url('/images/zanzibar-banner.jpg');
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+}
+
+.international-banner-content {
+  position: relative;
+  z-index: 2;
+  max-width: 520px;
+}
+
+.international-banner h2 {
+  margin: 0 0 15px;
+  color: #fff;
+  font: 400 clamp(36px, 4.5vw, 54px)/1.1 'Playfair Display', Georgia, serif;
+  letter-spacing: -0.03em;
+}
+
+.international-banner h2 em {
+  color: var(--gold-light);
+  font-style: italic;
+}
+
+.international-banner p {
+  margin: 0 0 30px;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+@media (max-width: 600px) {
+  .international-banner {
+    padding: 40px 24px;
+    margin: 40px 20px;
+    background-image: 
+      linear-gradient(90deg, rgba(11, 45, 30, 0.95) 0%, rgba(11, 45, 30, 0.85) 100%), 
+      url('/images/zanzibar-banner.jpg');
   }
 }

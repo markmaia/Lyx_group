@@ -5,17 +5,32 @@ import "../AdminBlog.css";
 const projectUrl = import.meta.env.VITE_SUPABASE_URL?.replace(/\/$/, "");
 const publicKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
 const bucket = "property-images";
+
 const emptyForm = {
-  title: "", slug: "", summary: "", description: "", property_type: "residential",
+  title: "", slug: "", summary: "", description: "", property_type: "apartments",
   transaction_type: "sale", status: "published", price_ksh: "", city: "Nairobi", area: "", image_urls: [],
   bedrooms: "", bathrooms: "", floor_area_sqm: "", land_area_sqm: "", featured: false,
+  construction_status: "ready", amenities: "",
 };
+
 const emptyArticleForm = { title: "", slug: "", excerpt: "", body_markdown: "", cover_image_url: "", status: "draft" };
+
 const types = [
-  ["residential", "Residential"], ["commercial", "Commercial"], ["off_plan", "Off-plan"],
-  ["land_plot", "Land & plots"], ["rental", "Rental"], ["holiday_home", "Holiday home"], ["luxury", "Luxury"],
+  ["apartments", "Apartments"], 
+  ["commercial", "Commercial"], 
+  ["off_plan", "Off-Plan"], 
+  ["land_plot", "Land & plots"], 
+  ["rental", "Rental"], 
+  ["holiday_home", "Holiday home"], 
+  ["luxury", "Luxury"],
 ];
-const fields = "id,slug,title,summary,description,property_type,transaction_type,status,price_ksh,city,area,bedrooms,bathrooms,floor_area_sqm,land_area_sqm,image_urls,featured,created_at";
+
+const statuses = [
+  ["ready", "Ready / Finished"],
+  ["ongoing", "Ongoing"]
+];
+
+const fields = "id,slug,title,summary,description,property_type,transaction_type,status,price_ksh,city,area,bedrooms,bathrooms,floor_area_sqm,land_area_sqm,image_urls,featured,created_at,construction_status,amenities";
 
 function readSession() {
   try { return JSON.parse(sessionStorage.getItem("lyx-admin-session") || "null"); } catch { return null; }
@@ -68,6 +83,7 @@ export default function Admin() {
   const [articleForm, setArticleForm] = useState(emptyArticleForm);
   const [editingArticleId, setEditingArticleId] = useState(null);
   const [form, setForm] = useState(emptyForm);
+  const [units, setUnits] = useState([]);
   const [editingId, setEditingId] = useState(null);
   const [photos, setPhotos] = useState([]);
   const [email, setEmail] = useState("");
@@ -139,17 +155,15 @@ export default function Admin() {
         const profile = await requestWithSession("/auth/v1/user", {}, session);
         const activeSession = readSession() || session;
         const access = await requestWithSession(`/rest/v1/admin_users?select=user_id&user_id=eq.${encodeURIComponent(profile.id)}`, {}, activeSession);
-        if (!access?.length) throw new Error("This account does not have admin access. Ask the project owner to add it to admin_users.");
+        if (!access?.length) throw new Error("This account does not have admin access.");
         const latestSession = readSession() || activeSession;
         await loadListings(latestSession);
         await loadValuations(readSession() || latestSession);
-        try { await loadEnquiries(readSession() || latestSession); }
-        catch { if (!cancelled) setEnquiriesError("Apply the contact form migration to view new web enquiries here."); }
-        try { await loadArticles(readSession() || latestSession); }
-        catch { if (!cancelled) setArticlesError("Blog management is unavailable. Check that the articles table and admin policies are installed."); }
+        try { await loadEnquiries(readSession() || latestSession); } catch { if (!cancelled) setEnquiriesError("Apply migration."); }
+        try { await loadArticles(readSession() || latestSession); } catch { if (!cancelled) setArticlesError("Blog unavailable."); }
         if (!cancelled) { setUser(profile); setAuthorized(true); }
       } catch (caught) {
-        if (!cancelled) signOut(caught.message || "Your sign-in has expired. Please sign in again.");
+        if (!cancelled) signOut(caught.message || "Sign-in expired.");
       } finally { if (!cancelled) setChecking(false); }
     })();
     return () => { cancelled = true; };
@@ -158,37 +172,38 @@ export default function Admin() {
   async function signIn(event) {
     event.preventDefault(); setBusy(true); setError(""); setNotice("");
     try {
-      if (!projectUrl || !publicKey) throw new Error("Supabase is not configured. Check the project URL and publishable key in .env.local.");
+      if (!projectUrl || !publicKey) throw new Error("Supabase is not configured.");
       const result = await request("/auth/v1/token?grant_type=password", {
         method: "POST", body: { email, password }, headers: { "Content-Type": "application/json" },
       });
       const nextSession = { access_token: result.access_token, refresh_token: result.refresh_token };
       sessionStorage.setItem("lyx-admin-session", JSON.stringify(nextSession));
       setSession(nextSession); setUser(result.user); setChecking(true);
-    } catch (caught) { setError(caught.message || "Could not sign in. Check your email and password."); }
+    } catch (caught) { setError(caught.message || "Could not sign in."); }
     finally { setBusy(false); }
   }
 
   function startNew() {
-    setEditingId(null); setForm(emptyForm); setPhotos([]); setError(""); setNotice("");
+    setEditingId(null); setForm(emptyForm); setUnits([]); setPhotos([]); setError(""); setNotice("");
     document.getElementById("listing-editor")?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
-  function editListing(listing) {
+  async function editListing(listing) {
     setEditingId(listing.id); setForm(mapForm(listing)); setPhotos([]); setError(""); setNotice("");
+    try {
+      const existingUnits = await requestWithSession(`/rest/v1/property_units?property_id=eq.${encodeURIComponent(listing.id)}&order=created_at.asc`);
+      setUnits(existingUnits || []);
+    } catch { setUnits([]); }
     document.getElementById("listing-editor")?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
   async function uploadPhotos(existing) {
     const urls = [...existing];
     for (const photo of photos) {
-      if (!photo.type.startsWith("image/")) throw new Error(`${photo.name} is not an image.`);
-      if (photo.size > 5 * 1024 * 1024) throw new Error(`${photo.name} is larger than the 5 MB upload limit.`);
       const safeName = photo.name.toLowerCase().replace(/[^a-z0-9.-]+/g, "-").replace(/^-|-$/g, "") || "photo";
       const objectPath = `${crypto.randomUUID()}-${safeName}`;
       await requestWithSession(`/storage/v1/object/${bucket}/${encodeURIComponent(objectPath)}`, {
-        method: "POST", body: photo,
-        headers: { "Content-Type": photo.type, "x-upsert": "false" },
+        method: "POST", body: photo, headers: { "Content-Type": photo.type, "x-upsert": "false" },
       });
       urls.push(`${projectUrl}/storage/v1/object/public/${bucket}/${encodeURIComponent(objectPath)}`);
     }
@@ -200,6 +215,7 @@ export default function Admin() {
     try {
       const existing = listings.find((item) => item.id === editingId);
       const image_urls = await uploadPhotos(existing?.image_urls || []);
+      
       const body = {
         ...form,
         slug: slugify(form.slug || form.title),
@@ -211,22 +227,40 @@ export default function Admin() {
         published_at: form.status === "published" ? (existing?.published_at || new Date().toISOString()) : null,
         image_urls,
       };
+      
       delete body.id; delete body.created_at;
+      
       if (!body.title.trim()) throw new Error("Enter a listing title.");
-      if (!body.slug) throw new Error("Add a title that can be used to create a URL slug.");
+      
+      let propertyId = editingId;
       if (editingId) {
         await requestWithSession(`/rest/v1/properties?id=eq.${encodeURIComponent(editingId)}`, {
-          method: "PATCH", body,
-          headers: { "Content-Type": "application/json", Prefer: "return=minimal" },
+          method: "PATCH", body, headers: { "Content-Type": "application/json", Prefer: "return=minimal" },
         });
       } else {
-        await requestWithSession("/rest/v1/properties", {
-          method: "POST", body,
-          headers: { "Content-Type": "application/json", Prefer: "return=minimal" },
+        const created = await requestWithSession("/rest/v1/properties", {
+          method: "POST", body, headers: { "Content-Type": "application/json", Prefer: "return=representation" },
+        });
+        propertyId = created[0].id;
+      }
+
+      await requestWithSession(`/rest/v1/property_units?property_id=eq.${propertyId}`, { method: "DELETE" });
+      
+      if (units.length > 0) {
+        const unitPayload = units.map(u => ({
+          property_id: propertyId,
+          unit_name: u.unit_name,
+          beds: numericOrNull(u.beds),
+          size_sqm: numericOrNull(u.size_sqm),
+          price_ksh: numericOrNull(u.price_ksh)
+        }));
+        await requestWithSession("/rest/v1/property_units", {
+          method: "POST", body: unitPayload, headers: { "Content-Type": "application/json", Prefer: "return=minimal" },
         });
       }
+      
       await loadListings(session); setNotice(editingId ? "Listing updated." : "Listing created.");
-      setEditingId(null); setForm(emptyForm); setPhotos([]);
+      setEditingId(null); setForm(emptyForm); setUnits([]); setPhotos([]);
     } catch (caught) { setError(caught.message || "Could not save this listing."); }
     finally { setBusy(false); }
   }
@@ -332,6 +366,20 @@ export default function Admin() {
     finally { setBusy(false); }
   }
 
+  function addUnit() {
+    setUnits([...units, { unit_name: "", beds: "", size_sqm: "", price_ksh: "" }]);
+  }
+
+  function removeUnit(index) {
+    setUnits(units.filter((_, i) => i !== index));
+  }
+
+  function changeUnit(index, key, value) {
+    const newUnits = [...units];
+    newUnits[index][key] = value;
+    setUnits(newUnits);
+  }
+
   if (checking) return <main className="admin-page"><div className="admin-shell admin-state"><span className="admin-kicker">Lyx Realty Group · ADMIN</span><h1>Checking access</h1><p>Verifying your admin account with Supabase…</p></div></main>;
 
   if (!authorized) return (
@@ -373,6 +421,7 @@ export default function Admin() {
               <label className="admin-span-2">Listing title<input required value={form.title} onChange={(event) => changeForm("title", event.target.value)} placeholder="e.g. Contemporary villa in Karen" /></label>
               <label>URL slug<input required value={form.slug} onChange={(event) => changeForm("slug", event.target.value)} placeholder="contemporary-villa-karen" /></label>
               <label>Property category<select value={form.property_type} onChange={(event) => changeForm("property_type", event.target.value)}>{types.map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select></label>
+              <label>Construction Status<select value={form.construction_status} onChange={(event) => changeForm("construction_status", event.target.value)}>{statuses.map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select></label>
               <label>Listing purpose<select value={form.transaction_type} onChange={(event) => changeForm("transaction_type", event.target.value)}><option value="sale">For sale</option><option value="rent">For rent</option></select></label>
               <label>Price (KES)<input type="number" min="0" step="1" value={form.price_ksh} onChange={(event) => changeForm("price_ksh", event.target.value)} placeholder="Leave empty for price on request" /></label>
               <label>City<input value={form.city} onChange={(event) => changeForm("city", event.target.value)} /></label>
@@ -381,22 +430,52 @@ export default function Admin() {
               <label>Bathrooms<input type="number" min="0" value={form.bathrooms} onChange={(event) => changeForm("bathrooms", event.target.value)} /></label>
               <label>Floor area (m²)<input type="number" min="0" step="0.01" value={form.floor_area_sqm} onChange={(event) => changeForm("floor_area_sqm", event.target.value)} /></label>
               <label>Land area (m²)<input type="number" min="0" step="0.01" value={form.land_area_sqm} onChange={(event) => changeForm("land_area_sqm", event.target.value)} /></label>
+              
               <label className="admin-span-2">Short summary<textarea rows="2" value={form.summary} onChange={(event) => changeForm("summary", event.target.value)} placeholder="A concise description for property cards" /></label>
               <label className="admin-span-2">Full description<textarea rows="5" value={form.description} onChange={(event) => changeForm("description", event.target.value)} placeholder="Add the details buyers and renters need to know" /></label>
+              
+              {/* AMENITIES FIELD */}
+              <label className="admin-span-2">
+                Amenities (Comma separated)
+                <textarea rows="2" value={form.amenities || ""} onChange={(event) => changeForm("amenities", event.target.value)} placeholder="e.g. Swimming Pool, Gym, 24/7 Security, Secure Parking" />
+              </label>
+
               <label className="admin-span-2">Property photos<input type="file" accept="image/jpeg,image/png,image/webp,image/avif" multiple onChange={(event) => { const selected = Array.from(event.target.files || []); event.target.value = ""; setPhotos((current) => { const keys = new Set(current.map((photo) => `${photo.name}:${photo.size}:${photo.lastModified}`)); return [...current, ...selected.filter((photo) => { const key = `${photo.name}:${photo.size}:${photo.lastModified}`; if (keys.has(key)) return false; keys.add(key); return true; })]; }); }} /><small>Select several photos at once, or add more in another selection. JPG, PNG, WebP or AVIF; maximum 5 MB per photo.</small></label>
               {(form.image_urls || []).length > 0 && <div className="admin-span-2 admin-photo-list"><small>Current photos (kept when you save):</small><div>{form.image_urls.map((url) => <img key={url} src={url} alt="Current listing" />)}</div></div>}
               {photos.length > 0 && <p className="admin-span-2 admin-file-count">{photos.length} new photo{photos.length === 1 ? "" : "s"} selected. They will be added to this listing on save. <button type="button" className="admin-text-button" onClick={() => setPhotos([])}>Clear selection</button></p>}
               <label>Publication<select value={form.status} onChange={(event) => changeForm("status", event.target.value)}><option value="draft">Draft</option><option value="published">Published</option><option value="archived">Archived</option></select></label>
               <label className="admin-checkbox"><input type="checkbox" checked={form.featured} onChange={(event) => changeForm("featured", event.target.checked)} /> Feature on the homepage</label>
             </div>
+
+            {/* UNIT TYPES */}
+            <div style={{ marginTop: "30px", borderTop: "1px solid #ddd", paddingTop: "20px" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "15px" }}>
+                <h3 style={{ margin: 0, fontSize: "16px" }}>Available Unit Types</h3>
+                <button type="button" onClick={addUnit} className="admin-primary" style={{ padding: "6px 12px", fontSize: "12px" }}>+ Add Unit</button>
+              </div>
+              
+              {units.length === 0 && <p style={{ fontSize: "13px", color: "#666" }}>No individual units added yet.</p>}
+              
+              {units.map((unit, index) => (
+                <div key={index} style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr auto", gap: "10px", marginBottom: "10px", alignItems: "end" }}>
+                  <label>Unit Name<input placeholder="e.g. 1 Bedroom" value={unit.unit_name} onChange={(e) => changeUnit(index, "unit_name", e.target.value)} /></label>
+                  <label>Beds<input type="number" value={unit.beds} onChange={(e) => changeUnit(index, "beds", e.target.value)} /></label>
+                  <label>Size (sqm)<input type="number" value={unit.size_sqm} onChange={(e) => changeUnit(index, "size_sqm", e.target.value)} /></label>
+                  <label>Price (KES)<input type="number" value={unit.price_ksh} onChange={(e) => changeUnit(index, "price_ksh", e.target.value)} /></label>
+                  <button type="button" onClick={() => removeUnit(index)} style={{ padding: "10px", background: "#fee", color: "red", border: "1px solid #fcc", cursor: "pointer", height: "42px" }}>X</button>
+                </div>
+              ))}
+            </div>
+
             <div className="admin-form-actions"><button className="admin-primary" disabled={busy}>{busy ? "Saving…" : editingId ? "Save changes" : "Create listing"}</button></div>
           </form>
         </section>
 
         <section className="admin-panel admin-listings"><div className="admin-panel-title"><div><span className="admin-kicker">YOUR INVENTORY</span><h2>All listings <span className="admin-count">{listings.length}</span></h2></div></div>
-          {listings.length === 0 ? <div className="admin-empty"><b>No listings yet</b><p>Create your first property listing above. It will show on the public site when you publish it.</p><button className="admin-text-button" onClick={startNew}>Create a listing →</button></div> : <div className="admin-table-wrap"><table><thead><tr><th>Property</th><th>Location</th><th>Price</th><th>Status</th><th>Actions</th></tr></thead><tbody>{listings.map((listing) => <tr key={listing.id}><td><div className="admin-property-cell">{listing.image_urls?.[0] ? <img src={listing.image_urls[0]} alt="" /> : <div className="admin-no-photo">Lyx</div>}<div><b>{listing.title}</b><small>{types.find(([value]) => value === listing.property_type)?.[1]} · {listing.transaction_type === "rent" ? "Rent" : "Sale"}</small></div></div></td><td>{[listing.area, listing.city].filter(Boolean).join(", ") || "—"}</td><td>{displayPrice(listing.price_ksh)}</td><td><span className={`admin-status admin-status-${listing.status}`}>{listing.status}</span>{listing.featured && <small className="admin-featured">Featured</small>}</td><td><div className="admin-row-actions"><button onClick={() => editListing(listing)}>Edit</button><button className="admin-delete" onClick={() => deleteListing(listing)} disabled={busy}>Delete</button></div></td></tr>)}</tbody></table></div>}
+          {listings.length === 0 ? <div className="admin-empty"><b>No listings yet</b><p>Create your first property listing above. It will show on the public site when you publish it.</p><button className="admin-text-button" onClick={startNew}>Create a listing →</button></div> : <div className="admin-table-wrap"><table><thead><tr><th>Property</th><th>Location</th><th>Price</th><th>Status</th><th>Actions</th></tr></thead><tbody>{listings.map((listing) => <tr key={listing.id}><td><div className="admin-property-cell">{listing.image_urls?.[0] ? <img src={listing.image_urls[0]} alt="" /> : <div className="admin-no-photo">Lyx</div>}<div><b>{listing.title}</b><small>{types.find(([value]) => value === listing.property_type)?.[1]} · {listing.transaction_type === "rent" ? "Rent" : "Sale"} · {statuses.find(([value]) => value === listing.construction_status)?.[1]}</small></div></div></td><td>{[listing.area, listing.city].filter(Boolean).join(", ") || "—"}</td><td>{displayPrice(listing.price_ksh)}</td><td><span className={`admin-status admin-status-${listing.status}`}>{listing.status}</span>{listing.featured && <small className="admin-featured">Featured</small>}</td><td><div className="admin-row-actions"><button onClick={() => editListing(listing)}>Edit</button><button className="admin-delete" onClick={() => deleteListing(listing)} disabled={busy}>Delete</button></div></td></tr>)}</tbody></table></div>}
         </section>
 
+        {/* BLOG POSTS */}
         <section className="admin-panel" id="article-editor">
           <div className="admin-panel-title">
             <div><span className="admin-kicker">Lyx Realty Group Journal</span><h2>{editingArticleId ? "Edit blog post" : "Write a blog post"}</h2></div>
@@ -422,6 +501,7 @@ export default function Admin() {
               : <div className="admin-table-wrap"><table><thead><tr><th>Post</th><th>Status</th><th>Created</th><th>Actions</th></tr></thead><tbody>{articles.map((article) => <tr key={article.id}><td><b>{article.title}</b><br /><small>/{article.slug}</small></td><td><span className={`admin-status admin-status-${article.status}`}>{article.status}</span></td><td>{new Date(article.created_at).toLocaleDateString()}</td><td><div className="admin-row-actions"><button type="button" onClick={() => editArticle(article)}>Edit</button>{article.status === "published" && <a href={`/resources/blog/${encodeURIComponent(article.slug)}`} target="_blank" rel="noreferrer">View</a>}<button type="button" className="admin-delete" onClick={() => deleteArticle(article)} disabled={busy}>Delete</button></div></td></tr>)}</tbody></table></div>}
         </section>
 
+        {/* ENQUIRIES */}
         <section className="admin-panel">
           <div className="admin-panel-title">
             <div><span className="admin-kicker">WEB LEAD FORM</span><h2>Contact enquiries <span className="admin-count">{enquiries.length}</span></h2></div>
@@ -431,6 +511,7 @@ export default function Admin() {
               : <div className="admin-table-wrap"><table><thead><tr><th>Contact</th><th>Message</th><th>Status</th><th>Received</th><th>Actions</th></tr></thead><tbody>{enquiries.map((enquiry) => <tr key={enquiry.id}><td><b>{enquiry.contact_name}</b><br /><a href={`tel:${enquiry.phone}`}>{enquiry.phone}</a>{enquiry.email && <><br /><a href={`mailto:${enquiry.email}`}>{enquiry.email}</a></>}</td><td className="admin-enquiry-message">{enquiry.message}</td><td><span className={`admin-status admin-status-${enquiry.status}`}>{enquiry.status.replace("_", " ")}</span></td><td>{new Date(enquiry.created_at).toLocaleDateString()}</td><td><div className="admin-row-actions">{enquiry.status === "new" && <button onClick={() => updateEnquiryStatus(enquiry, "in_progress")} disabled={busy}>Mark in progress</button>}{enquiry.status !== "closed" && <button onClick={() => updateEnquiryStatus(enquiry, "closed")} disabled={busy}>Close</button>}{enquiry.status === "closed" && <button onClick={() => updateEnquiryStatus(enquiry, "new")} disabled={busy}>Reopen</button>}</div></td></tr>)}</tbody></table></div>}
         </section>
 
+        {/* VALUATIONS */}
         <section className="admin-panel">
           <div className="admin-panel-title">
             <div>

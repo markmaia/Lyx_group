@@ -33,7 +33,7 @@ const propertyTypeValues = {
   "Luxury Properties": "luxury",
 };
 
-const propertyFields = "id,slug,title,summary,property_type,transaction_type,price_ksh,city,area,bedrooms,bathrooms,floor_area_sqm,image_urls,featured";
+const propertyFields = "id,slug,title,summary,property_type,transaction_type,price_ksh,city,area,bedrooms,bathrooms,floor_area_sqm,image_urls,featured,country";
 
 export function getFeaturedProperties() {
   return readTable("properties", {
@@ -76,7 +76,7 @@ export function getSimilarProperties(property) {
 
 export async function getPublishedProperty(slug) {
   const rows = await readTable("properties", {
-    select: "id,slug,title,summary,description,property_type,transaction_type,price_ksh,city,area,bedrooms,bathrooms,floor_area_sqm,land_area_sqm,image_urls,featured",
+    select: "id,slug,title,summary,description,property_type,transaction_type,price_ksh,city,area,bedrooms,bathrooms,floor_area_sqm,land_area_sqm,image_urls,featured,country",
     slug: `eq.${slug}`,
     status: "eq.published",
     limit: "1",
@@ -136,6 +136,7 @@ export async function getPublishedArticle(slug) {
   });
   return rows[0] || null;
 }
+
 // ---------- Valuation helpers ----------
 
 export function getPriceGuides() {
@@ -196,4 +197,15 @@ export async function submitEnquiryRequest(payload) {
     } catch { /* The service may return plain text. */ }
     throw new Error(detail || `Your message could not be sent (HTTP ${response.status}). Please contact us by phone or WhatsApp.`);
   }
+}
+
+// ---------- International Search ----------
+
+export async function searchInternationalProperties(countryQuery) {
+  if (!countryQuery) return [];
+  return readTable("properties", {
+    select: propertyFields,
+    status: "eq.published",
+    country: `ilike.*${countryQuery}*`,
+  });
 }

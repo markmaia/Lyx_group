@@ -11,20 +11,19 @@ import Blog from "./pages/Blog";
 import FAQ from "./pages/FAQ";
 import Admin from "./pages/Admin";
 import About from "./pages/About";
+import Contact from "./pages/Contact"; // <-- ADDED CONTACT IMPORT
 import PropertyDetails from "./pages/PropertyDetails";
-import { CurrencyProvider } from "./context/CurrencyContext";
+import International from "./pages/International";
 import WhatsAppBot from "./components/WhatsAppBot";
-import Contact from "./pages/Contact";
-import NotFound from "./pages/NotFound";
-import useSeo from "./lib/useSeo";
-import { adminSeo, notFoundSeo, publicSeoRoutes } from "./lib/seoRoutes";
+import { CurrencyProvider } from "./context/CurrencyContext";
 import "./App.css";
 import "./HomePage.css";
 
 const routes = {
   "/admin": Admin,
   "/about": About,
-  "/contact": Contact,
+  "/contact": Contact, // <-- ADDED CONTACT ROUTE
+  "/international": International,
   "/buy/commercial": Commercial,
   "/buy/residential": Residential,
   "/buy/off-plan": OffPlan,
@@ -38,16 +37,17 @@ const routes = {
 };
 
 export default function App() {
-  const pathname = window.location.pathname.replace(/\/+$/, "") || "/";
+  const pathname = window.location.pathname.replace(/\/$/, "");
   const propertyMatch = pathname.match(/^\/property\/([^/]+)$/);
-  const articleMatch = pathname.match(/^\/resources\/blog\/([^/]+)$/);
   const Page = routes[pathname];
-  const staticSeo = publicSeoRoutes.find((route) => route.path === pathname);
-  const seo = staticSeo || (pathname === "/admin" ? adminSeo : propertyMatch || articleMatch ? null : notFoundSeo);
-  useSeo(seo);
   const content = propertyMatch
     ? <PropertyDetails slug={decodeURIComponent(propertyMatch[1])} />
-    : articleMatch ? <Blog slug={decodeURIComponent(articleMatch[1])} />
-    : Page ? <Page /> : pathname === "/" ? <HomePage /> : <NotFound />;
-  return <CurrencyProvider>{content}<WhatsAppBot /></CurrencyProvider>;
+    : Page ? <Page /> : <HomePage />;
+    
+  return (
+    <CurrencyProvider>
+      {content}
+      {pathname !== "/admin" && <WhatsAppBot />}
+    </CurrencyProvider>
+  );
 }

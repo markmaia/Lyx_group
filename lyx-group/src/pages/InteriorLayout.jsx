@@ -24,6 +24,9 @@ export default function InteriorLayout({ eyebrow, title, description, children, 
               <a href="/buy/land">Land &amp; Plots</a>
             </div>
           </details>
+          
+          <a href="/international">Destinations</a>
+
           <a href="/holiday-homes">Holiday Homes</a>
           <a href="/rent">Rent</a>
           <a href="/valuation">Valuation</a>

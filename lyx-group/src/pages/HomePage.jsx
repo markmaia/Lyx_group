@@ -64,6 +64,7 @@ function PropertySearch() {
           <span>Location</span>
           <span className="search-input"><MapPin size={16} /><input value={location} onChange={(event) => setLocation(event.target.value)} placeholder="City, area or neighborhood" /></span>
         </label>
+        
         <label className="search-field">
           <span>Property type</span>
           <select value={propertyType} onChange={(event) => setPropertyType(event.target.value)}>
@@ -253,7 +254,18 @@ export default function HomePage() {
           <a href="#home" onClick={() => setMenuOpen(false)}>Home</a>
           <a href="/about" onClick={() => setMenuOpen(false)}>About</a>
           <a href="/contact" onClick={() => setMenuOpen(false)}>Contact</a>
-          <details className="nav-dropdown"><summary>Buy</summary><div className="dropdown-menu"><a href="/buy/commercial" onClick={() => setMenuOpen(false)}>Commercial</a><a href="/buy/residential" onClick={() => setMenuOpen(false)}>Residential</a><a href="/buy/off-plan" onClick={() => setMenuOpen(false)}>Off-plan</a><a href="/buy/land" onClick={() => setMenuOpen(false)}>Land &amp; Plots</a></div></details>
+          <details className="nav-dropdown">
+            <summary>Buy</summary>
+            <div className="dropdown-menu">
+              <a href="/buy/commercial" onClick={() => setMenuOpen(false)}>Commercial</a>
+              <a href="/buy/residential" onClick={() => setMenuOpen(false)}>Residential</a>
+              <a href="/buy/off-plan" onClick={() => setMenuOpen(false)}>Off-plan</a>
+              <a href="/buy/land" onClick={() => setMenuOpen(false)}>Land &amp; Plots</a>
+            </div>
+          </details>
+          
+          <a href="/international" onClick={() => setMenuOpen(false)}>Destinations</a>
+
           <a href="/holiday-homes" onClick={() => setMenuOpen(false)}>Holiday Homes</a>
           <a href="/rent" onClick={() => setMenuOpen(false)}>Rent</a>
           <a href="/valuation" onClick={() => setMenuOpen(false)}>Valuation</a>
@@ -305,6 +317,17 @@ export default function HomePage() {
               <div className="category-card-copy"><div><h3>{name}</h3><p>{detail}</p></div><span className="category-arrow"><ArrowUpRight size={17} /></span></div>
             </a>
           ))}
+        </div>
+      </section>
+
+      {/* INTERNATIONAL BANNER */}
+      <section className="international-banner">
+        <div className="international-banner-content">
+          <h2>Looking beyond <em>Kenya?</em></h2>
+          <p>Discover our curated international properties in Zanzibar and beyond.</p>
+          <a className="button-gold" href="/international">
+            Explore International <ArrowRight size={16} />
+          </a>
         </div>
       </section>
 
