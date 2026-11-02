@@ -18,7 +18,7 @@ const emptyArticleForm = { title: "", slug: "", excerpt: "", body_markdown: "", 
 const types = [
   ["apartments", "Apartments"], 
   ["commercial", "Commercial"], 
-  ["off_plan", "Off-Plan"], 
+  
   ["land_plot", "Land & plots"], 
   ["rental", "Rental"], 
   ["holiday_home", "Holiday home"], 

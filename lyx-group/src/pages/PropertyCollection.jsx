@@ -13,6 +13,7 @@ function ListingCard({ property, purpose }) {
   const price = property.price_ksh == null ? "Price on request" : `KSh ${new Intl.NumberFormat("en-KE", { maximumFractionDigits: 0 }).format(property.price_ksh)}`;
   
   const isCommercial = property.property_type === "commercial";
+  const isResidential = property.property_type === "residential";
   
   const facts = [
     !isCommercial && property.bedrooms != null && `${property.bedrooms} beds`,
@@ -22,7 +23,7 @@ function ListingCard({ property, purpose }) {
 
   const moveImage = (direction) => setActiveImage((current) => (current + direction + images.length) % images.length);
 
-  // Add badges for Commercial
+  // Badges for both Commercial and Residential
   const statusBadge = property.construction_status === "ready" 
     ? <span className="badge-status badge-ready">READY</span>
     : <span className="badge-status badge-ongoing">ONGOING</span>;
@@ -39,8 +40,8 @@ function ListingCard({ property, purpose }) {
           <span className="residential-gallery-count">{activeImage + 1} / {images.length}</span>
         </>}
         
-        {/* Show Badges only if it's commercial */}
-        {isCommercial && (
+        {/* Show Badges for Commercial OR Residential */}
+        {(isCommercial || isResidential) && (
           <div className="residential-badges">
             <span className="badge-purpose">{property.transaction_type === "rent" ? "FOR RENT" : "FOR SALE"}</span>
             {statusBadge}
@@ -101,7 +102,7 @@ export default function PropertyCollection({ eyebrow, title, description, proper
     <InteriorLayout eyebrow={eyebrow} title={title} description={description}>
       <section className="residential-results" aria-live="polite">
         
-        {/* Filter Bar (Only shows on Commercial) */}
+        {/* Filter Bar (Shows on Commercial and Residential) */}
         {allowFilter && (
           <div className="collection-filters">
             <div className="filter-group">

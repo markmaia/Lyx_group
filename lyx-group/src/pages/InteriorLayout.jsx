@@ -20,7 +20,6 @@ export default function InteriorLayout({ eyebrow, title, description, children, 
             <div className="dropdown-menu">
               <a href="/buy/commercial">Commercial</a>
               <a href="/buy/residential">Residential</a>
-              <a href="/buy/off-plan">Off-plan</a>
               <a href="/buy/land">Land &amp; Plots</a>
             </div>
           </details>

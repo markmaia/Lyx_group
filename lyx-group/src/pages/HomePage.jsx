@@ -10,7 +10,6 @@ import SocialLinks from "../components/SocialLinks";
 const propertyTypes = [
   { name: "Residential", icon: Home, href: "/buy/residential", detail: "Homes for the next chapter.", image: "/images/property-categories/residential.jpeg" },
   { name: "Commercial", icon: Building2, href: "/buy/commercial", detail: "Spaces for business and growth.", image: "/images/property-categories/commercial.jpeg" },
-  { name: "Off-Plan", icon: Sparkles, href: "/buy/off-plan", detail: "Discover emerging opportunities.", image: "/images/property-categories/off-plan.jpeg" },
   { name: "Land & Plots", icon: Ruler, href: "/buy/land", detail: "Explore land opportunities.", image: "/images/property-categories/land-plots.jpeg" },
   { name: "Rentals", icon: KeyRound, href: "/rent", detail: "Find a place to make your own.", image: "/images/property-categories/rentals.jpeg" },
   { name: "Holiday Homes", icon: MapPin, href: "/holiday-homes", detail: "Ask us about holiday properties.", image: "/images/property-categories/holiday-homes.jpeg" },
@@ -259,7 +258,7 @@ export default function HomePage() {
             <div className="dropdown-menu">
               <a href="/buy/commercial" onClick={() => setMenuOpen(false)}>Commercial</a>
               <a href="/buy/residential" onClick={() => setMenuOpen(false)}>Residential</a>
-              <a href="/buy/off-plan" onClick={() => setMenuOpen(false)}>Off-plan</a>
+              
               <a href="/buy/land" onClick={() => setMenuOpen(false)}>Land &amp; Plots</a>
             </div>
           </details>

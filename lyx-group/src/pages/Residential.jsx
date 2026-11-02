@@ -1,5 +1,14 @@
 import PropertyCollection from "./PropertyCollection";
 
 export default function Residential() {
-  return <PropertyCollection eyebrow="BUY PROPERTY" title="Residential" description="Explore homes chosen to support the way you want to live and the future you want to build." propertyType="residential" transactionType="sale" collectionTitle="Homes for sale" emptyLabel="homes" />;
+  return <PropertyCollection 
+    eyebrow="BUY PROPERTY" 
+    title="Residential" 
+    description="Explore homes for today and ongoing developments for the future." 
+    propertyType="residential" 
+    transactionType="sale" 
+    collectionTitle="Residential properties" 
+    emptyLabel="residential properties" 
+    allowFilter={true} 
+  />;
 }

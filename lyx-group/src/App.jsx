@@ -1,7 +1,6 @@
 import HomePage from "./pages/HomePage";
 import Commercial from "./pages/Commercial";
 import Residential from "./pages/Residential";
-import OffPlan from "./pages/OffPlan";
 import Land from "./pages/Land";
 import HolidayHomes from "./pages/HolidayHomes";
 import Rent from "./pages/Rent";
@@ -11,7 +10,7 @@ import Blog from "./pages/Blog";
 import FAQ from "./pages/FAQ";
 import Admin from "./pages/Admin";
 import About from "./pages/About";
-import Contact from "./pages/Contact"; // <-- ADDED CONTACT IMPORT
+import Contact from "./pages/Contact";
 import PropertyDetails from "./pages/PropertyDetails";
 import International from "./pages/International";
 import WhatsAppBot from "./components/WhatsAppBot";
@@ -22,11 +21,10 @@ import "./HomePage.css";
 const routes = {
   "/admin": Admin,
   "/about": About,
-  "/contact": Contact, // <-- ADDED CONTACT ROUTE
+  "/contact": Contact,
   "/international": International,
   "/buy/commercial": Commercial,
   "/buy/residential": Residential,
-  "/buy/off-plan": OffPlan,
   "/buy/land": Land,
   "/holiday-homes": HolidayHomes,
   "/rent": Rent,
