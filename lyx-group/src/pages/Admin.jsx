@@ -425,6 +425,7 @@ export default function Admin() {
               <label>Listing purpose<select value={form.transaction_type} onChange={(event) => changeForm("transaction_type", event.target.value)}><option value="sale">For sale</option><option value="rent">For rent</option></select></label>
               <label>Price (KES)<input type="number" min="0" step="1" value={form.price_ksh} onChange={(event) => changeForm("price_ksh", event.target.value)} placeholder="Leave empty for price on request" /></label>
               <label>City<input value={form.city} onChange={(event) => changeForm("city", event.target.value)} /></label>
+              <label>Country<input value={form.country || ""} onChange={(event) => changeForm("country", event.target.value)} placeholder="e.g. Kenya, Tanzania, UAE" /></label>
               <label>Area / neighbourhood<input value={form.area} onChange={(event) => changeForm("area", event.target.value)} placeholder="e.g. Karen" /></label>
               <label>Bedrooms<input type="number" min="0" value={form.bedrooms} onChange={(event) => changeForm("bedrooms", event.target.value)} /></label>
               <label>Bathrooms<input type="number" min="0" value={form.bathrooms} onChange={(event) => changeForm("bathrooms", event.target.value)} /></label>
