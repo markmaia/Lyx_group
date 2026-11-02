@@ -7,8 +7,10 @@ const publicKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
 const bucket = "property-images";
 
 const emptyForm = {
-  title: "", slug: "", summary: "", description: "", property_type: "apartments",
-  transaction_type: "sale", status: "published", price_ksh: "", city: "Nairobi", area: "", image_urls: [],
+  title: "", slug: "", summary: "", description: "", property_type: "residential",
+  transaction_type: "sale", status: "published", price_ksh: "", city: "Nairobi", area: "", 
+  country: "", // <-- ADDED COUNTRY HERE
+  image_urls: [],
   bedrooms: "", bathrooms: "", floor_area_sqm: "", land_area_sqm: "", featured: false,
   construction_status: "ready", amenities: "",
 };
@@ -16,7 +18,7 @@ const emptyForm = {
 const emptyArticleForm = { title: "", slug: "", excerpt: "", body_markdown: "", cover_image_url: "", status: "draft" };
 
 const types = [
-  ["apartments", "Apartments"], 
+    ["residential", "Residential"],
   ["commercial", "Commercial"], 
   
   ["land_plot", "Land & plots"], 
@@ -30,8 +32,7 @@ const statuses = [
   ["ongoing", "Ongoing"]
 ];
 
-const fields = "id,slug,title,summary,description,property_type,transaction_type,status,price_ksh,city,area,bedrooms,bathrooms,floor_area_sqm,land_area_sqm,image_urls,featured,created_at,construction_status,amenities";
-
+const fields = "id,slug,title,summary,description,property_type,transaction_type,status,price_ksh,city,area,country,bedrooms,bathrooms,floor_area_sqm,land_area_sqm,image_urls,featured,created_at,construction_status,amenities";
 function readSession() {
   try { return JSON.parse(sessionStorage.getItem("lyx-admin-session") || "null"); } catch { return null; }
 }
