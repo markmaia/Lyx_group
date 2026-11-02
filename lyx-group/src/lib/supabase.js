@@ -33,7 +33,8 @@ const propertyTypeValues = {
   "Luxury Properties": "luxury",
 };
 
-const propertyFields = "id,slug,title,summary,property_type,transaction_type,price_ksh,city,area,bedrooms,bathrooms,floor_area_sqm,image_urls,featured,country";
+// ADDED construction_status TO THE FIELDS LIST
+const propertyFields = "id,slug,title,summary,property_type,transaction_type,price_ksh,city,area,bedrooms,bathrooms,floor_area_sqm,image_urls,featured,country,construction_status";
 
 export function getFeaturedProperties() {
   return readTable("properties", {
@@ -56,8 +57,18 @@ export function getPublishedProperties({ propertyType, transactionType } = {}) {
     order: "featured.desc,created_at.desc",
     limit: "48",
   };
-  if (propertyType) params.property_type = `eq.${propertyType}`;
+  
+  // If propertyType has a comma (like "residential,apartments"), use `in`
+  if (propertyType) {
+    if (propertyType.includes(",")) {
+      params.property_type = `in.(${propertyType})`;
+    } else {
+      params.property_type = `eq.${propertyType}`;
+    }
+  }
+  
   if (transactionType) params.transaction_type = `eq.${transactionType}`;
+  
   return readTable("properties", params);
 }
 
@@ -76,7 +87,8 @@ export function getSimilarProperties(property) {
 
 export async function getPublishedProperty(slug) {
   const rows = await readTable("properties", {
-    select: "id,slug,title,summary,description,property_type,transaction_type,price_ksh,city,area,bedrooms,bathrooms,floor_area_sqm,land_area_sqm,image_urls,featured,country",
+    // ADDED construction_status HERE TOO
+    select: "id,slug,title,summary,description,property_type,transaction_type,price_ksh,city,area,bedrooms,bathrooms,floor_area_sqm,land_area_sqm,image_urls,featured,country,construction_status,amenities",
     slug: `eq.${slug}`,
     status: "eq.published",
     limit: "1",
