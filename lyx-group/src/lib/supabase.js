@@ -219,9 +219,13 @@ export async function searchInternationalProperties(countryQuery) {
     status: "eq.published",
   };
 
-  // Only filter by country if the user actually typed something
   if (countryQuery && countryQuery.trim() !== "") {
+    // If the user typed a country, search for it
     params.country = `ilike.*${countryQuery.trim()}*`;
+  } else {
+    // If the search is empty, EXCLUDE Kenya properties
+    params.country = `neq.Kenya`; 
+    // (This tells Supabase: show everything where country is NOT Kenya)
   }
 
   return readTable("properties", params);

@@ -299,7 +299,7 @@ export default function HomePage() {
           {muted ? <VolumeX size={16} /> : <Volume2 size={16} />}{muted ? "SOUND OFF" : "SOUND ON"}
         </button>
         <a className="luxury-scroll" href="#categories"><span><ArrowDown size={15} /></span> DISCOVER MORE</a>
-        <span className="hero-established">ESTABLISHED 2015</span>
+        <span className="hero-established">LUXURY LIVING · REDEFINED</span>
         <PropertySearch />
       </section>
 
