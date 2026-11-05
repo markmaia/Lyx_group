@@ -214,10 +214,15 @@ export async function submitEnquiryRequest(payload) {
 // ---------- International Search ----------
 
 export async function searchInternationalProperties(countryQuery) {
-  if (!countryQuery) return [];
-  return readTable("properties", {
+  const params = {
     select: propertyFields,
     status: "eq.published",
-    country: `ilike.*${countryQuery}*`,
-  });
+  };
+
+  // Only filter by country if the user actually typed something
+  if (countryQuery && countryQuery.trim() !== "") {
+    params.country = `ilike.*${countryQuery.trim()}*`;
+  }
+
+  return readTable("properties", params);
 }

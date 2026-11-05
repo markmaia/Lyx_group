@@ -1,9 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Search, MapPin } from "lucide-react";
 import InteriorLayout from "./InteriorLayout";
 import { searchInternationalProperties } from "../lib/supabase";
 
-// We will create a simple card inline to avoid double layouts
 function InternationalCard({ property }) {
   const image = property.image_urls?.[0];
   const href = `/property/${encodeURIComponent(property.slug)}`;
@@ -34,12 +33,20 @@ export default function International() {
   const [searched, setSearched] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  // Load ALL international properties on first load
+  useEffect(() => {
+    setLoading(true);
+    searchInternationalProperties("") // Empty string gets everything
+      .then((data) => setResults(data || []))
+      .catch((err) => console.error(err))
+      .finally(() => setLoading(false));
+  }, []);
+
   async function handleSearch(e) {
     e.preventDefault();
-    if (!query.trim()) return;
-    
-    setLoading(true);
     setSearched(true);
+    setLoading(true);
+    
     try {
       const data = await searchInternationalProperties(query);
       setResults(data || []);
@@ -76,25 +83,25 @@ export default function International() {
 
       {/* Results Section */}
       {loading ? (
-        <p>Searching...</p>
-      ) : searched && results.length > 0 ? (
+        <p>Loading properties...</p>
+      ) : results.length > 0 ? (
         <div>
-          <p style={{ marginBottom: "20px", fontWeight: "bold", color: "#173d2d" }}>Found {results.length} properties in "{query}"</p>
+          <p style={{ marginBottom: "20px", fontWeight: "bold", color: "#173d2d" }}>
+            {searched ? `Found ${results.length} properties in "${query}"` : `All International Properties (${results.length})`}
+          </p>
           <div className="residential-grid">
             {results.map(p => <InternationalCard key={p.id} property={p} />)}
           </div>
         </div>
-      ) : searched && results.length === 0 ? (
-        <div style={{ padding: "40px", textAlign: "center", background: "#fff", border: "1px solid #e0dfd5", borderRadius: "8px" }}>
-          <h3 style={{ fontFamily: "Georgia, serif", fontSize: "22px", color: "#173d2d", marginBottom: "10px" }}>No properties currently listed in "{query}"</h3>
-          <p style={{ color: "#5b6a5f", marginBottom: "20px" }}>Don't worry, we have a vast network of international partners.</p>
-          <a href={`https://wa.me/254741246659?text=${encodeURIComponent(`Hi Lyx Realty Group, I am looking for a property in ${query}. Do you have any available or can you help me find one?`)}`} target="_blank" rel="noreferrer" style={{ display: "inline-block", padding: "12px 24px", background: "#173d2d", color: "#fff", textDecoration: "none", borderRadius: "4px", fontWeight: "bold" }}>
-            Inquire about {query}
-          </a>
-        </div>
       ) : (
         <div style={{ padding: "40px", textAlign: "center", background: "#fff", border: "1px solid #e0dfd5", borderRadius: "8px" }}>
-          <p style={{ color: "#5b6a5f" }}>Type a country above to search our international portfolio.</p>
+          <h3 style={{ fontFamily: "Georgia, serif", fontSize: "22px", color: "#173d2d", marginBottom: "10px" }}>
+            {searched ? `No properties currently listed in "${query}"` : "No international properties available at the moment."}
+          </h3>
+          <p style={{ color: "#5b6a5f", marginBottom: "20px" }}>Don't worry, we have a vast network of international partners.</p>
+          <a href={`https://wa.me/254741246659?text=${encodeURIComponent(`Hi Lyx Realty Group, I am looking for a property in ${query || "your international portfolio"}. Do you have any available or can you help me find one?`)}`} target="_blank" rel="noreferrer" style={{ display: "inline-block", padding: "12px 24px", background: "#173d2d", color: "#fff", textDecoration: "none", borderRadius: "4px", fontWeight: "bold" }}>
+            Inquire with LYX Group
+          </a>
         </div>
       )}
     </InteriorLayout>

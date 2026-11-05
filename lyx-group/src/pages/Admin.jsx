@@ -9,7 +9,7 @@ const bucket = "property-images";
 const emptyForm = {
   title: "", slug: "", summary: "", description: "", property_type: "residential",
   transaction_type: "sale", status: "published", price_ksh: "", city: "Nairobi", area: "", 
-  country: "", // <-- ADDED COUNTRY HERE
+  country: "", 
   image_urls: [],
   bedrooms: "", bathrooms: "", floor_area_sqm: "", land_area_sqm: "", featured: false,
   construction_status: "ready", amenities: "",
@@ -18,9 +18,8 @@ const emptyForm = {
 const emptyArticleForm = { title: "", slug: "", excerpt: "", body_markdown: "", cover_image_url: "", status: "draft" };
 
 const types = [
-    ["residential", "Residential"],
+  ["residential", "Residential"],
   ["commercial", "Commercial"], 
-  
   ["land_plot", "Land & plots"], 
   ["rental", "Rental"], 
   ["holiday_home", "Holiday home"], 
@@ -33,6 +32,7 @@ const statuses = [
 ];
 
 const fields = "id,slug,title,summary,description,property_type,transaction_type,status,price_ksh,city,area,country,bedrooms,bathrooms,floor_area_sqm,land_area_sqm,image_urls,featured,created_at,construction_status,amenities";
+
 function readSession() {
   try { return JSON.parse(sessionStorage.getItem("lyx-admin-session") || "null"); } catch { return null; }
 }
@@ -215,7 +215,7 @@ export default function Admin() {
     event.preventDefault(); setBusy(true); setError(""); setNotice("");
     try {
       const existing = listings.find((item) => item.id === editingId);
-      const image_urls = await uploadPhotos(existing?.image_urls || []);
+      const image_urls = await uploadPhotos(form.image_urls || []);
       
       const body = {
         ...form,
@@ -306,6 +306,27 @@ export default function Admin() {
 
   function changeForm(key, value) {
     setForm((current) => ({ ...current, [key]: value, ...(key === "title" && !editingId ? { slug: slugify(value) } : {}) }));
+  }
+
+  // NEW: Function to move images left or right
+  function moveImage(index, direction) {
+    // Create a copy of the current array
+    const newImages = [...form.image_urls];
+    const targetIndex = index + direction;
+    
+    // If moving left but already at the start, or right at the end, do nothing
+    if (targetIndex < 0 || targetIndex >= newImages.length) return;
+    
+    // Swap the images
+    const temp = newImages[index];
+    newImages[index] = newImages[targetIndex];
+    newImages[targetIndex] = temp;
+    
+    // Update the form state directly
+    setForm((current) => ({
+      ...current,
+      image_urls: newImages
+    }));
   }
 
   function changeArticleForm(key, value) {
@@ -436,20 +457,52 @@ export default function Admin() {
               <label className="admin-span-2">Short summary<textarea rows="2" value={form.summary} onChange={(event) => changeForm("summary", event.target.value)} placeholder="A concise description for property cards" /></label>
               <label className="admin-span-2">Full description<textarea rows="5" value={form.description} onChange={(event) => changeForm("description", event.target.value)} placeholder="Add the details buyers and renters need to know" /></label>
               
-              {/* AMENITIES FIELD */}
               <label className="admin-span-2">
                 Amenities (Comma separated)
                 <textarea rows="2" value={form.amenities || ""} onChange={(event) => changeForm("amenities", event.target.value)} placeholder="e.g. Swimming Pool, Gym, 24/7 Security, Secure Parking" />
               </label>
 
               <label className="admin-span-2">Property photos<input type="file" accept="image/jpeg,image/png,image/webp,image/avif" multiple onChange={(event) => { const selected = Array.from(event.target.files || []); event.target.value = ""; setPhotos((current) => { const keys = new Set(current.map((photo) => `${photo.name}:${photo.size}:${photo.lastModified}`)); return [...current, ...selected.filter((photo) => { const key = `${photo.name}:${photo.size}:${photo.lastModified}`; if (keys.has(key)) return false; keys.add(key); return true; })]; }); }} /><small>Select several photos at once, or add more in another selection. JPG, PNG, WebP or AVIF; maximum 5 MB per photo.</small></label>
-              {(form.image_urls || []).length > 0 && <div className="admin-span-2 admin-photo-list"><small>Current photos (kept when you save):</small><div>{form.image_urls.map((url) => <img key={url} src={url} alt="Current listing" />)}</div></div>}
+              
+              {/* UPDATED: Photo reordering UI */}
+              {(form.image_urls || []).length > 0 && (
+                <div className="admin-span-2 admin-photo-list">
+                  <small style={{ display: "block", marginBottom: "10px" }}>
+                    Current photos (The first photo is the main cover image. Use the arrows to rearrange):
+                  </small>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: "15px" }}>
+                    {form.image_urls.map((url, index) => (
+                      <div key={url} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "8px" }}>
+                        <img src={url} alt={`Listing ${index + 1}`} style={{ width: "100px", height: "80px", objectFit: "cover", borderRadius: "4px" }} />
+                        <div style={{ display: "flex", gap: "5px" }}>
+                          <button 
+                            type="button" 
+                            onClick={() => moveImage(index, -1)} 
+                            disabled={index === 0}
+                            style={{ padding: "4px 8px", cursor: index === 0 ? "not-allowed" : "pointer", fontSize: "12px" }}
+                          >
+                            ←
+                          </button>
+                          <button 
+                            type="button" 
+                            onClick={() => moveImage(index, 1)} 
+                            disabled={index === form.image_urls.length - 1}
+                            style={{ padding: "4px 8px", cursor: index === form.image_urls.length - 1 ? "not-allowed" : "pointer", fontSize: "12px" }}
+                          >
+                            →
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+              
               {photos.length > 0 && <p className="admin-span-2 admin-file-count">{photos.length} new photo{photos.length === 1 ? "" : "s"} selected. They will be added to this listing on save. <button type="button" className="admin-text-button" onClick={() => setPhotos([])}>Clear selection</button></p>}
               <label>Publication<select value={form.status} onChange={(event) => changeForm("status", event.target.value)}><option value="draft">Draft</option><option value="published">Published</option><option value="archived">Archived</option></select></label>
               <label className="admin-checkbox"><input type="checkbox" checked={form.featured} onChange={(event) => changeForm("featured", event.target.checked)} /> Feature on the homepage</label>
             </div>
 
-            {/* UNIT TYPES */}
             <div style={{ marginTop: "30px", borderTop: "1px solid #ddd", paddingTop: "20px" }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "15px" }}>
                 <h3 style={{ margin: 0, fontSize: "16px" }}>Available Unit Types</h3>
@@ -477,7 +530,6 @@ export default function Admin() {
           {listings.length === 0 ? <div className="admin-empty"><b>No listings yet</b><p>Create your first property listing above. It will show on the public site when you publish it.</p><button className="admin-text-button" onClick={startNew}>Create a listing →</button></div> : <div className="admin-table-wrap"><table><thead><tr><th>Property</th><th>Location</th><th>Price</th><th>Status</th><th>Actions</th></tr></thead><tbody>{listings.map((listing) => <tr key={listing.id}><td><div className="admin-property-cell">{listing.image_urls?.[0] ? <img src={listing.image_urls[0]} alt="" /> : <div className="admin-no-photo">Lyx</div>}<div><b>{listing.title}</b><small>{types.find(([value]) => value === listing.property_type)?.[1]} · {listing.transaction_type === "rent" ? "Rent" : "Sale"} · {statuses.find(([value]) => value === listing.construction_status)?.[1]}</small></div></div></td><td>{[listing.area, listing.city].filter(Boolean).join(", ") || "—"}</td><td>{displayPrice(listing.price_ksh)}</td><td><span className={`admin-status admin-status-${listing.status}`}>{listing.status}</span>{listing.featured && <small className="admin-featured">Featured</small>}</td><td><div className="admin-row-actions"><button onClick={() => editListing(listing)}>Edit</button><button className="admin-delete" onClick={() => deleteListing(listing)} disabled={busy}>Delete</button></div></td></tr>)}</tbody></table></div>}
         </section>
 
-        {/* BLOG POSTS */}
         <section className="admin-panel" id="article-editor">
           <div className="admin-panel-title">
             <div><span className="admin-kicker">Lyx Realty Group Journal</span><h2>{editingArticleId ? "Edit blog post" : "Write a blog post"}</h2></div>
@@ -503,7 +555,6 @@ export default function Admin() {
               : <div className="admin-table-wrap"><table><thead><tr><th>Post</th><th>Status</th><th>Created</th><th>Actions</th></tr></thead><tbody>{articles.map((article) => <tr key={article.id}><td><b>{article.title}</b><br /><small>/{article.slug}</small></td><td><span className={`admin-status admin-status-${article.status}`}>{article.status}</span></td><td>{new Date(article.created_at).toLocaleDateString()}</td><td><div className="admin-row-actions"><button type="button" onClick={() => editArticle(article)}>Edit</button>{article.status === "published" && <a href={`/resources/blog/${encodeURIComponent(article.slug)}`} target="_blank" rel="noreferrer">View</a>}<button type="button" className="admin-delete" onClick={() => deleteArticle(article)} disabled={busy}>Delete</button></div></td></tr>)}</tbody></table></div>}
         </section>
 
-        {/* ENQUIRIES */}
         <section className="admin-panel">
           <div className="admin-panel-title">
             <div><span className="admin-kicker">WEB LEAD FORM</span><h2>Contact enquiries <span className="admin-count">{enquiries.length}</span></h2></div>
@@ -513,7 +564,6 @@ export default function Admin() {
               : <div className="admin-table-wrap"><table><thead><tr><th>Contact</th><th>Message</th><th>Status</th><th>Received</th><th>Actions</th></tr></thead><tbody>{enquiries.map((enquiry) => <tr key={enquiry.id}><td><b>{enquiry.contact_name}</b><br /><a href={`tel:${enquiry.phone}`}>{enquiry.phone}</a>{enquiry.email && <><br /><a href={`mailto:${enquiry.email}`}>{enquiry.email}</a></>}</td><td className="admin-enquiry-message">{enquiry.message}</td><td><span className={`admin-status admin-status-${enquiry.status}`}>{enquiry.status.replace("_", " ")}</span></td><td>{new Date(enquiry.created_at).toLocaleDateString()}</td><td><div className="admin-row-actions">{enquiry.status === "new" && <button onClick={() => updateEnquiryStatus(enquiry, "in_progress")} disabled={busy}>Mark in progress</button>}{enquiry.status !== "closed" && <button onClick={() => updateEnquiryStatus(enquiry, "closed")} disabled={busy}>Close</button>}{enquiry.status === "closed" && <button onClick={() => updateEnquiryStatus(enquiry, "new")} disabled={busy}>Reopen</button>}</div></td></tr>)}</tbody></table></div>}
         </section>
 
-        {/* VALUATIONS */}
         <section className="admin-panel">
           <div className="admin-panel-title">
             <div>
