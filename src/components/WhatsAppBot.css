@@ -1,0 +1,21 @@
+.wa-backdrop{position:fixed;z-index:1098;inset:0;width:100%;height:100%;padding:0;border:0;background:rgba(12,20,15,.18);cursor:default}
+.wa-bot{position:fixed;z-index:1099;right:24px;bottom:98px;width:min(370px,calc(100vw - 32px));overflow:hidden;border:1px solid #e4e9e4;border-radius:16px;background:#fff;box-shadow:0 18px 60px rgba(15,35,24,.22);opacity:0;visibility:hidden;transform:translateY(12px) scale(.98);transform-origin:bottom right;transition:opacity .18s ease,transform .18s ease,visibility .18s ease}
+.wa-bot.open{opacity:1;visibility:visible;transform:translateY(0) scale(1)}
+.wa-bot-header{display:flex;align-items:center;gap:12px;padding:18px 20px;color:#fff;background:#166b45}
+.wa-bot-avatar{display:grid;width:42px;height:42px;flex:0 0 auto;place-items:center;border-radius:50%;color:#166b45;background:#fff}
+.wa-bot-header strong,.wa-bot-header small{display:block}
+.wa-bot-header strong{font-size:15px;font-weight:700}
+.wa-bot-header small{margin-top:4px;color:#d5e9dc;font-size:11px}
+.wa-bot-body{padding:19px}
+.wa-bot-greeting{margin:0 0 16px;padding:13px 14px;border-radius:4px 14px 14px 14px;color:#34433a;background:#f0f5f1;font-size:13px;line-height:1.55}
+.wa-bot-options{display:grid;gap:8px}
+.wa-bot-option{width:100%;padding:11px 13px;border:1px solid #dce8df;border-radius:8px;color:#185d3f;background:#fff;text-align:left;font-family:inherit;font-size:12px;font-weight:600;line-height:1.35;cursor:pointer;transition:background .15s ease,border-color .15s ease,transform .15s ease}
+.wa-bot-option:hover{transform:translateY(-1px);border-color:#9ac4a8;background:#f4faf5}
+.wa-bot-option:focus-visible,.wa-fab:focus-visible{outline:3px solid #f4cc69;outline-offset:3px}
+.wa-bot-footnote{margin:14px 0 0;color:#818b83;font-size:10px;line-height:1.5;text-align:center}
+.wa-fab{position:fixed;z-index:1100;right:25px;bottom:24px;display:grid;width:60px;height:60px;place-items:center;padding:0;border:0;border-radius:50%;color:#fff;background:#20bd5a;box-shadow:0 6px 22px rgba(9,45,25,.3);cursor:pointer;transition:transform .18s ease,background .18s ease,box-shadow .18s ease}
+.wa-fab:hover{transform:translateY(-2px);background:#159e49;box-shadow:0 9px 26px rgba(9,45,25,.38)}
+.wa-fab.active{background:#176b45}
+.wa-fab-close{font-size:25px;line-height:1}
+@media(max-width:480px){.wa-fab{right:17px;bottom:17px;width:56px;height:56px}.wa-bot{right:16px;bottom:84px;width:calc(100vw - 32px)}.wa-bot-body{padding:16px}.wa-bot-header{padding:15px 17px}}
+@media(prefers-reduced-motion:reduce){.wa-bot,.wa-fab,.wa-bot-option{transition:none}}

@@ -1,0 +1,123 @@
+.blog-list {
+  display: grid;
+  gap: 22px;
+  margin-top: 42px;
+}
+
+.blog-card {
+  display: grid;
+  grid-template-columns: minmax(190px, 34%) 1fr;
+  overflow: hidden;
+  border: 1px solid #e3e3d9;
+  background: #fffefa;
+}
+
+.blog-card > a {
+  display: block;
+  min-height: 210px;
+  overflow: hidden;
+  background: #eceee7;
+}
+
+.blog-card > a img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 210px;
+  object-fit: cover;
+  transition: transform .3s ease;
+}
+
+.blog-card > a:hover img {
+  transform: scale(1.035);
+}
+
+.blog-card > div {
+  align-self: center;
+  padding: 28px clamp(22px, 4vw, 44px);
+}
+
+.blog-article-date {
+  display: block;
+  margin: 0 0 12px;
+  color: #8b754e;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.blog-card h2 {
+  margin: 0 0 10px;
+  color: #173d2d;
+  font: 400 clamp(22px, 3vw, 31px)/1.2 'Playfair Display', Georgia, serif;
+}
+
+.blog-card h2 a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.blog-card h2 a:hover {
+  color: #92784b;
+}
+
+.blog-card p {
+  margin: 0;
+  color: #647166;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.blog-read-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 21px;
+  color: #254233;
+  font-size: 11px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.blog-article {
+  max-width: 790px;
+  margin: 46px 0 0;
+}
+
+.blog-article-cover {
+  display: block;
+  width: 100%;
+  max-height: 520px;
+  margin-bottom: 28px;
+  object-fit: cover;
+}
+
+.blog-article-body {
+  color: #46564b;
+  font-size: 15px;
+  line-height: 1.9;
+}
+
+.blog-article-body p,
+.blog-article-body ul {
+  margin: 0 0 21px;
+}
+
+.blog-article-body h2 {
+  margin: 35px 0 13px;
+  color: #173d2d;
+  font: 400 30px/1.25 'Playfair Display', Georgia, serif;
+}
+
+.blog-article-body ul {
+  padding-left: 23px;
+}
+
+@media (max-width: 650px) {
+  .blog-card { grid-template-columns: 1fr; }
+  .blog-card > a,
+  .blog-card > a img { min-height: 190px; max-height: 280px; }
+  .blog-card > div { padding: 23px 20px; }
+  .blog-article-body { font-size: 14px; }
+}
