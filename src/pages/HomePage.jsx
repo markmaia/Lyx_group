@@ -317,7 +317,6 @@ export default function HomePage() {
         <button className="sound-toggle luxury-sound" onClick={toggleSound} aria-label={muted ? "Turn video sound on" : "Mute video"}>
           {muted ? <VolumeX size={16} /> : <Volume2 size={16} />}{muted ? "SOUND OFF" : "SOUND ON"}
         </button>
-        <a className="luxury-scroll" href="#categories"><span><ArrowDown size={15} /></span> DISCOVER MORE</a>
         <span className="hero-established">KENYA · ZANZIBAR · GLOBAL</span>
         <PropertySearch />
       </section>
@@ -375,7 +374,7 @@ export default function HomePage() {
       </section>
 
       <section className="development-band">
-        <div className="development-copy"><p className="luxury-kicker">THE NEXT CHAPTER</p><h2>Featured Developments &amp; Investment</h2><p>Explore opportunities with the right guidance, from new developments to long-term property investments.</p><a className="button-gold" href="/buy/off-plan">Explore Off-plan <ArrowUpRight size={16} /></a></div>
+        <div className="development-copy"><p className="luxury-kicker">THE NEXT CHAPTER</p><h2>Featured Developments &amp; Investment</h2><p>Explore opportunities with the right guidance, from new developments to long-term property investments.</p><a className="button-gold" href="/buy/residential">Explore apartments <ArrowUpRight size={16} /></a></div>
         <div className="development-art"><img className="development-art-image" src="/images/featured-development.jpeg" alt="Modern high-rise apartment development at dusk" /><span className="development-art-caption">Lyx Realty Group · KENYA</span></div>
       </section>
 
