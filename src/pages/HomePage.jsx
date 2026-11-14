@@ -10,7 +10,7 @@ import SocialLinks from "../components/SocialLinks";
 const propertyTypes = [
   { name: "Residential", icon: Home, href: "/buy/residential", detail: "Homes for the next chapter.", image: "/images/property-categories/residential.jpeg" },
   { name: "Commercial", icon: Building2, href: "/buy/commercial", detail: "Spaces for business and growth.", image: "/images/property-categories/commercial.jpeg" },
-  { name: "Off-Plan", icon: Sparkles, href: "/buy/off-plan", detail: "Discover emerging opportunities.", image: "/images/property-categories/off-plan.jpeg" },
+  { name: "Ongoing", icon: Sparkles, href: "/buy/residential", detail: "Discover emerging opportunities.", image: "/images/property-categories/off-plan.jpeg" },
   { name: "Land & Plots", icon: Ruler, href: "/buy/land", detail: "Explore land opportunities.", image: "/images/property-categories/land-plots.jpeg" },
   { name: "Rentals", icon: KeyRound, href: "/rent", detail: "Find a place to make your own.", image: "/images/property-categories/rentals.jpeg" },
   { name: "Holiday Homes", icon: MapPin, href: "/holiday-homes", detail: "Ask us about holiday properties.", image: "/images/property-categories/holiday-homes.jpeg" },
@@ -121,6 +121,15 @@ function PropertyGrid({ properties, compact }) {
   })}</div>;
 }
 
+// Image-only grid, used ONLY by the Featured Properties section on the homepage.
+function FeaturedGrid({ properties }) {
+  return <div className="listing-grid">{properties.map((property) => (
+    <article className="listing-card" key={property.id}>
+      <PropertyPhoto property={property} />
+    </article>
+  ))}</div>;
+}
+
 function FeaturedProperties() {
   const [properties, setProperties] = useState([]);
   const [error, setError] = useState("");
@@ -135,7 +144,7 @@ function FeaturedProperties() {
     return () => { active = false; };
   }, []);
 
-  if (properties.length) return <PropertyGrid properties={properties} />;
+  if (properties.length) return <FeaturedGrid properties={properties} />;
 
   return <div className="inventory-empty">
     <span className="empty-mark"><Building2 size={24} strokeWidth={1.2} /></span>
