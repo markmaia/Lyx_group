@@ -63,13 +63,13 @@ function ListingCard({ property, purpose }) {
   );
 }
 
-export default function PropertyCollection({ eyebrow, title, description, propertyType, transactionType, collectionTitle, emptyLabel, allowFilter, countryFilter }) {
+export default function PropertyCollection({ eyebrow, title, description, propertyType, transactionType, collectionTitle, emptyLabel, allowFilter, countryFilter, initialStatus, lockStatus }) {
   const [properties, setProperties] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   
   const [filterPurpose, setFilterPurpose] = useState(transactionType || "sale");
-  const [filterStatus, setFilterStatus] = useState("all");
+  const [filterStatus, setFilterStatus] = useState(initialStatus || "all");
 
   useEffect(() => {
     let active = true;
@@ -106,12 +106,20 @@ export default function PropertyCollection({ eyebrow, title, description, proper
               <button className={filterPurpose === "sale" ? "active" : ""} onClick={() => setFilterPurpose("sale")}>Buy</button>
               <button className={filterPurpose === "rent" ? "active" : ""} onClick={() => setFilterPurpose("rent")}>Rent</button>
             </div>
-            <div className="filter-group">
-              <span>Status:</span>
-              <button className={filterStatus === "all" ? "active" : ""} onClick={() => setFilterStatus("all")}>All</button>
-              <button className={filterStatus === "ready" ? "active" : ""} onClick={() => setFilterStatus("ready")}>Ready</button>
-              <button className={filterStatus === "ongoing" ? "active" : ""} onClick={() => setFilterStatus("ongoing")}>Ongoing</button>
-            </div>
+            {!lockStatus && (
+              <div className="filter-group">
+                <span>Status:</span>
+                <button className={filterStatus === "all" ? "active" : ""} onClick={() => setFilterStatus("all")}>All</button>
+                <button className={filterStatus === "ready" ? "active" : ""} onClick={() => setFilterStatus("ready")}>Ready</button>
+                <button className={filterStatus === "ongoing" ? "active" : ""} onClick={() => setFilterStatus("ongoing")}>Ongoing</button>
+              </div>
+            )}
+            {lockStatus && (
+              <div className="filter-group filter-locked">
+                <span>Status:</span>
+                <span className="locked-badge">{initialStatus === "ongoing" ? "Ongoing Only" : "Ready Only"}</span>
+              </div>
+            )}
           </div>
         )}
 

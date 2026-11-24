@@ -10,7 +10,7 @@ import SocialLinks from "../components/SocialLinks";
 const propertyTypes = [
   { name: "Residential", icon: Home, href: "/buy/residential", detail: "Homes for the next chapter.", image: "/images/property-categories/residential.jpeg" },
   { name: "Commercial", icon: Building2, href: "/buy/commercial", detail: "Spaces for business and growth.", image: "/images/property-categories/commercial.jpeg" },
-  { name: "Ongoing", icon: Sparkles, href: "/buy/residential", detail: "Discover emerging opportunities.", image: "/images/property-categories/off-plan.jpeg" },
+  { name: "Ongoing", icon: Sparkles, href: "/buy/residential?status=ongoing", detail: "Discover emerging opportunities.", image: "/images/property-categories/off-plan.jpeg" },
   { name: "Land & Plots", icon: Ruler, href: "/buy/land", detail: "Explore land opportunities.", image: "/images/property-categories/land-plots.jpeg" },
   { name: "Rentals", icon: KeyRound, href: "/rent", detail: "Find a place to make your own.", image: "/images/property-categories/rentals.jpeg" },
   { name: "Holiday Homes", icon: MapPin, href: "/holiday-homes", detail: "Ask us about holiday properties.", image: "/images/property-categories/holiday-homes.jpeg" },
@@ -86,7 +86,7 @@ function PropertySearch() {
       </form>
       {searched && <div className="search-results" role="status" aria-live="polite">
         <div className="search-results-toolbar"><span>{searchError ? "Search unavailable" : isSearching ? "Searching" : `${results.length} ${results.length === 1 ? "match" : "matches"}`}</span><button type="button" onClick={clearSearch}><X size={14} /> Clear search</button></div>
-        {searchError ? <p className="search-result">{searchError}</p> : isSearching ? <p className="search-result">Searching published listings…</p> : results.length ? <div className="search-result-list"><PropertyGrid properties={results} compact={true} /></div> : <p className="search-result">No published listings match those filters yet. <a href="#contact">Ask Lyx Realty Group about current opportunities.</a></p>}
+        {searchError ? <p className="search-result">{searchError}</p> : isSearching ? <p className="search-result">Searching published listings…</p> : results.length ? <div className="search-result-list"><PropertyGrid properties={results} /></div> : <p className="search-result">No published listings match those filters yet. <a href="#contact">Ask Lyx Realty Group about current opportunities.</a></p>}
       </div>}
     </div>
   );
